@@ -1,23 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 type Props = {
-  anime: any
+  anime: any,
+  onClick: () => void
 }
 
-import styles from './Card.module.css';
 
-function Card({anime, ...props}: Props) {
+function Card({anime, onClick, ...props}: Props) { 
+
   return (
-    <div className={styles.card}>
-      <div className={styles.overlay}></div>
-      <div className={styles.details}>
-        <h1 className="text-2xl font-semibold mb-4">{anime.title}</h1>
-        <p>Score: {anime.score}</p>
-        <p>Episodes: {anime.episodes}</p>
-        <p>Type: {anime.type}</p>
+    <>
+      <div className="card" onClick={onClick}>
+        <div className="card-overlay"></div>
+        <div className="card-details">
+          <h1 className="text-2xl font-semibold mb-4">{anime.title}</h1>
+          <p>Score: {anime.score}</p>
+          <p>Episodes: {anime.episodes}</p>
+          <p>Type: {anime.type}</p>
+        </div>
+        <img src={anime.images.jpg.image_url}/>
       </div>
-      <img src={anime.images.jpg.image_url}/>
-    </div>
+    </>
   )
 }
 

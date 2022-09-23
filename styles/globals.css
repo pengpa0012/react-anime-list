@@ -8,3 +8,78 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+.card {
+  position: relative;
+  cursor: pointer;
+  transition: 300ms;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: scale(1.2);
+  z-index: 2;
+}
+
+.card:hover .card-overlay,
+.card:hover .card-details {
+  opacity: 1;
+}
+
+.card img {
+  width: 225px;
+  height: 335px;
+}
+
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .5);
+  opacity: 0;
+  transition: 300ms;
+}
+
+.card-details {
+  position: absolute;
+  color: #fff;
+  top: 50%;
+  transform: translateY(-50%); 
+  opacity: 0;
+  transition: 300ms;
+  padding: 1rem;
+  width: 100%;
+  text-align: center;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  max-width: 800px;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 5px;
+  transform: translate(-50%, -50%) scale(0);
+  background: #fff;
+  z-index: 5;
+  transition: 300ms;
+}
+
+.modal.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .5);
+  opacity: 0;
+  z-index: 4;
+  pointer-events: none;
+  transition: 300ms;
+}
+
+.overlay.active {
+  pointer-events: all;
+  opacity: 1;
+}
