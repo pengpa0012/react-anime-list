@@ -21,7 +21,7 @@ const Home: NextPage = () => {
 
   console.log(allAnime)
   return (
-    <div className="flex flex-wrap justify-center gap-2">
+    <div className="flex flex-wrap justify-center gap-2 py-20 px-6">
       {
         allAnime?.map((anime: any, index: number) => (
           <Card anime={anime} key={index} />

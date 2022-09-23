@@ -25,7 +25,8 @@
 .details {
   position: absolute;
   color: #fff;
-  top: 0;
+  top: 50%;
+  transform: translateY(-50%);
   opacity: 0;
   transition: 200ms;
   padding: 1rem;
