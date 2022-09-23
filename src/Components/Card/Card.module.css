@@ -1,0 +1,34 @@
+
+.card {
+  position: relative;
+  cursor: pointer;
+}
+
+.card:hover .overlay,
+.card:hover .details {
+  opacity: 1;
+}
+
+.card img {
+  width: 225px;
+  height: 335px;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .5);
+  opacity: 0;
+  transition: 200ms;
+}
+
+.details {
+  position: absolute;
+  color: #fff;
+  top: 0;
+  opacity: 0;
+  transition: 200ms;
+  padding: 1rem;
+  width: 100%;
+  text-align: center;
+}

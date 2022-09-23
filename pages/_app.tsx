@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import Navbar from '../src/Navbar'
+import Navbar from '../src/Components/Navbar'
 import Head from 'next/head'
 
 function MyApp({ Component, pageProps }: AppProps) {
