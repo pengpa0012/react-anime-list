@@ -56,13 +56,13 @@ body {
   top: 50%;
   left: 50%;
   max-width: 800px;
-  width: 100%;
-  padding: 1rem;
+  width: 90%;
   border-radius: 5px;
   transform: translate(-50%, -50%) scale(0);
   background: #fff;
   z-index: 5;
   transition: 300ms;
+  overflow: auto;
 }
 
 .modal.active {

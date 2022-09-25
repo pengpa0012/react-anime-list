@@ -7,9 +7,9 @@ import Card from '../src/Components/Card'
 const Home: NextPage = () => {
   const [allAnime, setAllAnime] = useState<Object[]>()
   const [showModal, setShowModal] = useState<boolean>(false)
-  const [animeInfo, setAnimeInfo] = useState<Object>({
+  const [animeInfo, setAnimeInfo] = useState<any>({
     info: {},
-    episodes: [],
+    episodes: {},
     people: {}
   })
   const [id, setId] = useState<number>()
@@ -48,6 +48,11 @@ const Home: NextPage = () => {
       people: animePeople.data
     })
   }
+  console.log(animeInfo)
+
+  const loadIframe = (e: any) => {
+    e.target.removeAttribute("srcdoc")
+  }
 
   return (
     <div className="flex flex-wrap justify-center gap-2 py-20 px-6">
@@ -57,9 +62,23 @@ const Home: NextPage = () => {
         ))
       }
       <div className={`modal ${showModal ? "active" : ""}`}>
-        <h1>MODAL</h1>
+        {
+          Object.keys(animeInfo?.info).length > 1 ?
+          <iframe srcDoc="Loading..." onLoad={(e) => loadIframe(e)} className="w-full pointer-events-none" height="400" src={`${animeInfo?.info?.trailer?.embed_url}&autoplay=1&mute=1&controls=0&showinfo=0&rel=0`}></iframe>
+          : undefined
+        }
+        <div className="p-6">
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+        </div>
       </div>
-      <div className={`overlay ${showModal ? "active" : ""}`} onClick={() => setShowModal(false)}></div>
+      <div className={`overlay ${showModal ? "active" : ""}`} onClick={() => {
+        setShowModal(false)
+        setAnimeInfo({
+          info: {},
+          episodes: {},
+          people: {}
+        })
+      }}></div>
     </div>
   )
 }
