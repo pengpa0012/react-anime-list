@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import Card from '../src/Components/Card'
+import { fetchAPI } from '../src/Utilities/Config'
 
 const Home: NextPage = () => {
   const [allAnime, setAllAnime] = useState<Object[]>()
@@ -15,39 +16,41 @@ const Home: NextPage = () => {
   const [id, setId] = useState<number>()
 
   useEffect(() => {
-    const fetchAPI = async () => {
-      const response = await fetch("https://api.jikan.moe/v4/anime")
-      const data = response.json()
-      return data
-    }
-
-    fetchAPI()
+    fetchAPI("https://api.jikan.moe/v4/anime")
     .then(res => setAllAnime(res.data))
     .catch(console.error)
   }, [])
 
-
   const getAnime = async (id: number) => {
     setId(id)
     setShowModal(true)
-    const response = await fetch(`https://api.jikan.moe/v4/anime/${id}/videos`)
-    const animeEpisodes = await response.json()
-    
     setAnimeInfo({
       info: allAnime?.filter((anime: any) => anime.mal_id == id)[0],
-      episodes: animeEpisodes.data
     })
   }
 
-  const getAnimePeople = async (id: number) => {
-    const response = await fetch(`https://api.jikan.moe/v4/people/${id}/full`)
-    const animePeople = await response.json()
-    
-    setAnimeInfo({
-      ...animeInfo,
-      people: animePeople.data
+  const getAnimePeople = async () => {
+    fetchAPI(`https://api.jikan.moe/v4/people/${id}/full`)
+    .then(response => {
+      setAnimeInfo({
+        ...animeInfo,
+        people: response.data
+      })
     })
+    .catch(console.error)
   }
+
+  const getAnimeEpisodes = async () => {
+    fetchAPI(`https://api.jikan.moe/v4/anime/${id}/videos`)
+    .then(response => {
+      setAnimeInfo({
+        ...animeInfo,
+        episodes: response.data
+      })
+    })
+    .catch(console.error)
+  }
+
   console.log(animeInfo)
 
   const loadIframe = (e: any) => {
