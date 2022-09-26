@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import Card from '../src/Components/Card'
+import Modal from '../src/Components/Modal'
 import { fetchAPI } from '../src/Utilities/Config'
 
 const Home: NextPage = () => {
@@ -72,49 +73,7 @@ const Home: NextPage = () => {
           <Card anime={anime} key={index} onClick={() => getAnime(anime.mal_id)}/>
         ))
       }
-      <div className={`modal-cover ${showModal ? "pointer-events-auto overflow-y-scroll" : "pointer-events-none overflow-y-hidden"}`} onClick={() => {
-        setShowModal(false)
-        setAnimeInfo({
-          info: {},
-          episodes: {},
-          people: {}
-        })
-      }}>
-
-      <div className={`modal ${showModal ? "active" : ""}`}>
-        {
-          Object.keys(animeInfo?.info).length > 1 ?
-          <iframe srcDoc="Loading..." onLoad={(e) => loadIframe(e)} className="w-full pointer-events-none" height="400" src={`${animeInfo?.info?.trailer?.embed_url}&autoplay=1&mute=1&controls=0&showinfo=0&rel=0`}></iframe>
-          : undefined
-        }
-        <div className="p-6">
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
-        </div>
-      </div>
-      </div>
-      <div className={`overlay ${showModal ? "active" : ""}`}></div>
+      <Modal showModal={showModal} setShowModal={setShowModal} setAnimeInfo={setAnimeInfo} animeInfo={animeInfo} loadIframe={loadIframe}/>
     </div>
   )
 }
