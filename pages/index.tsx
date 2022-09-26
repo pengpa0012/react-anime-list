@@ -21,6 +21,14 @@ const Home: NextPage = () => {
     .catch(console.error)
   }, [])
 
+  useEffect(() => {
+    if(showModal){
+      document.body.style.overflowY = "hidden"
+    }else {
+      document.body.style.overflowY = "scroll"
+    }
+  }, [showModal])
+
   const getAnime = async (id: number) => {
     setId(id)
     setShowModal(true)
@@ -58,12 +66,21 @@ const Home: NextPage = () => {
   }
 
   return (
-    <div className="flex flex-wrap justify-center gap-2 py-20 px-6">
+    <div className="container flex flex-wrap justify-center gap-2 py-20 px-6">
       {
         allAnime?.map((anime: any, index: number) => (
           <Card anime={anime} key={index} onClick={() => getAnime(anime.mal_id)}/>
         ))
       }
+      <div className={`modal-cover ${showModal ? "pointer-events-auto overflow-y-scroll" : "pointer-events-none overflow-y-hidden"}`} onClick={() => {
+        setShowModal(false)
+        setAnimeInfo({
+          info: {},
+          episodes: {},
+          people: {}
+        })
+      }}>
+
       <div className={`modal ${showModal ? "active" : ""}`}>
         {
           Object.keys(animeInfo?.info).length > 1 ?
@@ -72,16 +89,32 @@ const Home: NextPage = () => {
         }
         <div className="p-6">
           <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
+          <h1 className="text-2xl">{animeInfo?.info.title}</h1>
         </div>
       </div>
-      <div className={`overlay ${showModal ? "active" : ""}`} onClick={() => {
-        setShowModal(false)
-        setAnimeInfo({
-          info: {},
-          episodes: {},
-          people: {}
-        })
-      }}></div>
+      </div>
+      <div className={`overlay ${showModal ? "active" : ""}`}></div>
     </div>
   )
 }

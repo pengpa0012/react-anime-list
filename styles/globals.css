@@ -8,6 +8,11 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
 .card {
   position: relative;
   cursor: pointer;
@@ -51,22 +56,29 @@ body {
   text-align: center;
 }
 
-.modal {
+.modal-cover {
   position: fixed;
-  top: 50%;
-  left: 50%;
+  z-index: 100;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal {
+  position: absolute;
+  inset: auto;
   max-width: 800px;
   width: 90%;
   border-radius: 5px;
-  transform: translate(-50%, -50%) scale(0);
+  transform: scale(0);
   background: #fff;
   z-index: 5;
   transition: 300ms;
-  overflow: auto;
 }
 
 .modal.active {
-  transform: translate(-50%, -50%) scale(1);
+  transform: scale(1);
 }
 
 .overlay {
