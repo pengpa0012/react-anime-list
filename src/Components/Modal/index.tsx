@@ -7,15 +7,17 @@ type Props = {
   setAnimeInfo: any
   loadIframe: any
   getEpisodes: any
+  hasData: boolean
+  setHasData: any
+  getStaff: any
 }
 
 
-function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, loadIframe, getEpisodes, ...props}: Props) { 
+function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, loadIframe, getEpisodes, hasData, setHasData, getStaff, ...props}: Props) { 
   console.log(animeInfo)
   return (
     <>
       <div className={`modal-cover ${showModal ? "pointer-events-auto overflow-y-scroll" : "pointer-events-none overflow-y-hidden"}`}>
-
         <div className={`modal ${showModal ? "active" : ""}`}>
           {
             Object.keys(animeInfo?.info).length > 1 ?
@@ -31,8 +33,8 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, loadIframe, ge
                   Genres: 
                   <ul>
                     {
-                      animeInfo?.info?.genres?.map((item: any) => (
-                        <li className="inline first:ml-2 mr-1 text-sm">{item.name}</li>
+                      animeInfo?.info?.genres?.map((item: any, i: number) => (
+                        <li className="inline first:ml-2 mr-1 text-sm" key={`genre-${i}`}>{item.name}</li>
                       ))
                     }
                   </ul>
@@ -44,25 +46,47 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, loadIframe, ge
                 <li className="my-1">Source: {animeInfo?.info?.source}</li>
               </ul>
             </div>
-            <div className="flex justify-between my-4">
-              <h3 className="text-xl">Episodes</h3>
+            <div className="flex justify-between items-center my-4 p-2">
+              <h3 className="text-xl">Latest Episodes</h3>
               <button className="py-2 px-4 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed" disabled={animeInfo?.episodes?.episodes?.length > 0 ? true : false} onClick={getEpisodes}>
                 Show
               </button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2">
+            <div className={`grid grid-cols-1 ${hasData ? "lg:grid-cols-2" : "lg:grid-cols-1"} px-2`}>
+             <h1 className={`${hasData ? "hidden" : "block"} text-center text-gray-500 `}>NO DATA</h1>
               {
-                animeInfo?.episodes?.episodes?.length > 0 ?
-                  animeInfo?.episodes?.episodes?.map((ep: any, i: number) => (
-                    <div className="p-2 flex flex-1" key={`ep-${i}`}>
-                      <img src={ep.images.jpg.image_url || "https://via.placeholder.com/100"} className="mr-4" />
-                      <div>
-                        <h4 className="text-md">{ep.episode}</h4>
-                        <p className="text-sm">{ep.title}</p>
-                      </div>
+                animeInfo?.episodes?.episodes?.map((ep: any, i: number) => (
+                  <div className="p-2 flex flex-1" key={`ep-${i}`}>
+                    <img src={ep.images.jpg.image_url || "https://via.placeholder.com/100"} className="mr-4" />
+                    <div>
+                      <h4 className="text-md">{ep.episode}</h4>
+                      <p className="text-sm">{ep.title}</p>
                     </div>
-                  ))
-                : <h1 className="text-xl">No Data</h1>
+                  </div>
+                ))
+              }
+            </div>
+            <div className="flex justify-between items-center my-4 p-2">
+              <h3 className="text-xl">Staff</h3>
+              <button className="py-2 px-4 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed" disabled={animeInfo?.people?.length > 0 ? true : false} onClick={getStaff}>
+                Show
+              </button>
+            </div>
+            <div className={`grid grid-cols-1 lg:grid-cols-2 px-2`}>
+              {
+                animeInfo?.people?.map((ep: any, i: number) => (
+                  <div className="p-2 flex flex-1" key={`ep-${i}`}>
+                    <img src={ep.person.images.jpg.image_url || "https://via.placeholder.com/100"} className="mr-4 w-16 object-cover" />
+                    <div>
+                      <h4 className="text-md">{ep.person.name}</h4>
+                      {
+                        ep.positions.map((pos: any, i: number) => (
+                          <p className="text-sm" key={`pos-${i}`}>{pos}</p>
+                        ))
+                      }
+                    </div>
+                  </div>
+                ))
               }
             </div>
           </div>
@@ -72,8 +96,9 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, loadIframe, ge
           setAnimeInfo({
             info: {},
             episodes: {},
-            people: {}
+            people: []
           })
+          setHasData(false)
         }}></div>
       </div>
     </>

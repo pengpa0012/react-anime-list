@@ -12,9 +12,10 @@ const Home: NextPage = () => {
   const [animeInfo, setAnimeInfo] = useState<any>({
     info: {},
     episodes: {},
-    people: {}
+    people: []
   })
   const [id, setId] = useState<number>()
+  const [hasData, setHasData] = useState<boolean>(false)
 
   useEffect(() => {
     fetchAPI("https://api.jikan.moe/v4/anime")
@@ -38,8 +39,8 @@ const Home: NextPage = () => {
     })
   }
 
-  const getAnimePeople = async () => {
-    fetchAPI(`https://api.jikan.moe/v4/people/${id}/full`)
+  const getAnimeStaff = async () => {
+    fetchAPI(`https://api.jikan.moe/v4/anime/${id}/staff`)
     .then(response => {
       setAnimeInfo({
         ...animeInfo,
@@ -52,6 +53,7 @@ const Home: NextPage = () => {
   const getAnimeEpisodes = async () => {
     fetchAPI(`https://api.jikan.moe/v4/anime/${id}/videos`)
     .then(response => {
+      setHasData(response.data.episodes.length > 0 ? true : false)
       setAnimeInfo({
         ...animeInfo,
         episodes: response.data
@@ -60,7 +62,6 @@ const Home: NextPage = () => {
     .catch(console.error)
   }
 
-  console.log(animeInfo)
 
   const loadIframe = (e: any) => {
     e.target.removeAttribute("srcdoc")
@@ -80,6 +81,9 @@ const Home: NextPage = () => {
         animeInfo={animeInfo} 
         loadIframe={loadIframe} 
         getEpisodes={getAnimeEpisodes}
+        hasData={hasData}
+        setHasData={setHasData}
+        getStaff={getAnimeStaff}
       />
     </div>
   )
