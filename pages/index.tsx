@@ -73,7 +73,14 @@ const Home: NextPage = () => {
           <Card anime={anime} key={index} onClick={() => getAnime(anime.mal_id)}/>
         ))
       }
-      <Modal showModal={showModal} setShowModal={setShowModal} setAnimeInfo={setAnimeInfo} animeInfo={animeInfo} loadIframe={loadIframe}/>
+      <Modal 
+        showModal={showModal} 
+        setShowModal={setShowModal} 
+        setAnimeInfo={setAnimeInfo} 
+        animeInfo={animeInfo} 
+        loadIframe={loadIframe} 
+        getEpisodes={getAnimeEpisodes}
+      />
     </div>
   )
 }
