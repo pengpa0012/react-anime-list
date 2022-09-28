@@ -1,22 +1,43 @@
 import React, { useEffect, useState } from 'react'
+import { fetchAPI } from '../../Utilities/Config'
 
 type Props = {
   animeInfo: any
   showModal: boolean
   setShowModal: any
   setAnimeInfo: any
-  loadIframe: any
-  getEpisodes: any
-  hasData: boolean | undefined
-  setHasData: any
-  getStaff: any
+  id: number | undefined
 }
 
 
-function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, loadIframe, getEpisodes, hasData, setHasData, getStaff, ...props}: Props){ 
+function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}: Props){ 
+  const [hasData, setHasData] = useState<boolean | undefined>(undefined)
+
+  const getAnimeStaff = async () => {
+    fetchAPI(`https://api.jikan.moe/v4/anime/${id}/staff`)
+    .then(response => {
+      setAnimeInfo({
+        ...animeInfo,
+        people: response.data
+      })
+    })
+    .catch(console.error)
+  }
+
+  const getAnimeEpisodes = async () => {
+    fetchAPI(`https://api.jikan.moe/v4/anime/${id}/videos`)
+    .then(response => {
+      setHasData(response.data.episodes.length > 0 ? true : false)
+      setAnimeInfo({
+        ...animeInfo,
+        episodes: response.data
+      })
+    })
+    .catch(console.error)
+  }
 
   const collection = (collection: any, episodes: boolean) => (
-    <div className={`grid grid-cols-1 ${episodes ? hasData ? "lg:grid-cols-1" : "" : "lg:grid-cols-2"} px-2`}>
+    <div className={`grid grid-cols-1 ${episodes ? hasData ? "lg:grid-cols-2" : "lg:grid-cols-1" : "lg:grid-cols-2"} px-2`}>
       { episodes ? <h1 className={`${hasData || hasData == undefined ? "hidden" : "block"} text-center text-gray-500 `}>NO DATA</h1> : undefined }
       {
         collection?.map((item: any, i: number) => (
@@ -43,7 +64,7 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, loadIframe, ge
         <div className={`modal ${showModal ? "active" : ""}`}>
           {
             Object.keys(animeInfo?.info).length > 1 ?
-            <iframe srcDoc="Loading..." onLoad={(e) => loadIframe(e)} className="w-full" height="400" src={`${animeInfo?.info?.trailer?.embed_url}&autoplay=1&mute=1&showinfo=0&rel=0`}></iframe>
+            <iframe className="w-full" height="400" src={`${animeInfo?.info?.trailer?.embed_url}&autoplay=1&mute=1&showinfo=0&rel=0`}></iframe>
             : undefined
           }
           <div className="p-6">
@@ -74,14 +95,14 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, loadIframe, ge
             </div>
             <div className="flex justify-between items-center my-4">
               <h3 className="text-xl">Latest Episodes</h3>
-              <button className="py-2 px-4 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed" disabled={animeInfo?.episodes?.episodes?.length > 0 || hasData == false ? true : false} onClick={getEpisodes}>
+              <button className="py-2 px-4 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed" disabled={animeInfo?.episodes?.episodes?.length > 0 || hasData == false ? true : false} onClick={getAnimeEpisodes}>
                 Show
               </button>
             </div>
             {collection(animeInfo?.episodes?.episodes, true)}
             <div className="flex justify-between items-center my-4">
               <h3 className="text-xl">Staff</h3>
-              <button className="py-2 px-4 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed" disabled={animeInfo?.people?.length > 0 ? true : false} onClick={getStaff}>
+              <button className="py-2 px-4 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed" disabled={animeInfo?.people?.length > 0 ? true : false} onClick={getAnimeStaff}>
                 Show
               </button>
             </div>
