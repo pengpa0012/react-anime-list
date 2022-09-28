@@ -16,7 +16,7 @@ type Props = {
 function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, loadIframe, getEpisodes, hasData, setHasData, getStaff, ...props}: Props){ 
 
   const collection = (collection: any, episodes: boolean) => (
-    <div className={`grid grid-cols-1 lg:grid-cols-2 px-2`}>
+    <div className={`grid grid-cols-1 ${episodes ? hasData ? "lg:grid-cols-1" : "" : "lg:grid-cols-2"} px-2`}>
       { episodes ? <h1 className={`${hasData || hasData == undefined ? "hidden" : "block"} text-center text-gray-500 `}>NO DATA</h1> : undefined }
       {
         collection?.map((item: any, i: number) => (
