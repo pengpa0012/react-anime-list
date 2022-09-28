@@ -13,8 +13,30 @@ type Props = {
 }
 
 
-function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, loadIframe, getEpisodes, hasData, setHasData, getStaff, ...props}: Props) { 
-  console.log(animeInfo)
+function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, loadIframe, getEpisodes, hasData, setHasData, getStaff, ...props}: Props){ 
+
+  const collection = (collection: any, episodes: boolean) => (
+    <div className={`grid grid-cols-1 lg:grid-cols-2 px-2`}>
+      { episodes ? <h1 className={`${hasData || hasData == undefined ? "hidden" : "block"} text-center text-gray-500 `}>NO DATA</h1> : undefined }
+      {
+        collection?.map((item: any, i: number) => (
+          <div className="p-2 flex flex-1" key={`ep-${i}`}>
+            <img loading="lazy" alt="STAFF IMG" src={(episodes ? item.images.jpg.image_url : item.person.images.jpg.image_url) || "https://via.placeholder.com/100"} className={`mr-4 ${episodes ? "" : "w-16"} object-cover`} style={episodes ? { maxWidth: 200, maxHeight: 150 } : { maxHeight: 96 }} />
+            <div>
+              <h4 className="text-md">{episodes ? item.episode : item.person.name}</h4>
+              {
+                episodes ? <p className="text-sm">{item.title}</p> : 
+                item.positions.map((pos: any, i: number) => (
+                  <p className="text-xs" key={`pos-${i}`}>{pos}</p>
+                ))
+              }
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  )
+
   return (
     <>
       <div className={`modal-cover ${showModal ? "pointer-events-auto overflow-y-scroll" : "pointer-events-none overflow-y-hidden"}`}>
@@ -56,44 +78,14 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, loadIframe, ge
                 Show
               </button>
             </div>
-            <div className={`grid grid-cols-1 ${hasData ? "lg:grid-cols-2" : "lg:grid-cols-1"} px-2`}>
-             <h1 className={`${hasData || hasData == undefined ? "hidden" : "block"} text-center text-gray-500 `}>NO DATA</h1>
-              {
-                animeInfo?.episodes?.episodes?.map((ep: any, i: number) => (
-                  <div className="p-2 flex flex-1" key={`ep-${i}`}>
-                    <img loading="lazy" alt="EP IMG" src={ep.images.jpg.image_url || "https://via.placeholder.com/100"} className="mr-4"
-                    style={{ maxWidth: 200, maxHeight: 150 }} />
-                    <div>
-                      <h4 className="text-md">{ep.episode}</h4>
-                      <p className="text-sm">{ep.title}</p>
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
+            {collection(animeInfo?.episodes?.episodes, true)}
             <div className="flex justify-between items-center my-4">
               <h3 className="text-xl">Staff</h3>
               <button className="py-2 px-4 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed" disabled={animeInfo?.people?.length > 0 ? true : false} onClick={getStaff}>
                 Show
               </button>
             </div>
-            <div className={`grid grid-cols-1 lg:grid-cols-2 px-2`}>
-              {
-                animeInfo?.people?.map((ep: any, i: number) => (
-                  <div className="p-2 flex flex-1" key={`ep-${i}`}>
-                    <img loading="lazy" alt="STAFF IMG" src={ep.person.images.jpg.image_url || "https://via.placeholder.com/100"} className="mr-4 w-16 object-cover" />
-                    <div>
-                      <h4 className="text-md">{ep.person.name}</h4>
-                      {
-                        ep.positions.map((pos: any, i: number) => (
-                          <p className="text-sm" key={`pos-${i}`}>{pos}</p>
-                        ))
-                      }
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
+            {collection(animeInfo?.people, false)}
           </div>
         </div>
         <div className={`overlay ${showModal ? "active" : ""}`} onClick={() => {
