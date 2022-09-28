@@ -15,7 +15,7 @@ const Home: NextPage = () => {
     people: []
   })
   const [id, setId] = useState<number>()
-  const [hasData, setHasData] = useState<boolean>(false)
+  const [hasData, setHasData] = useState<boolean | undefined>(undefined)
 
   useEffect(() => {
     fetchAPI("https://api.jikan.moe/v4/anime")
