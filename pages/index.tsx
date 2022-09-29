@@ -18,7 +18,9 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     fetchAPI("https://api.jikan.moe/v4/anime")
-    .then(res => setAllAnime(res.data))
+    .then(res => {
+      setAllAnime(res.data)
+    })
     .catch(console.error)
   }, [])
 
@@ -38,8 +40,10 @@ const Home: NextPage = () => {
     })
   }
 
+  console.log(allAnime)
+
   return (
-    <div className="container flex flex-wrap justify-center gap-2 py-20 px-6">
+    <div className="container list py-20 px-6">
       {
         allAnime?.map((anime: any, index: number) => (
           <Card anime={anime} key={index} onClick={() => getAnime(anime.mal_id)}/>

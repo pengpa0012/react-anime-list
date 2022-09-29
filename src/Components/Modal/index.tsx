@@ -71,16 +71,16 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
           <div className="p-6">
             <div className="mb-4">
               <h3 className="text-2xl">{animeInfo?.info?.title_english || animeInfo?.info?.title}</h3>
-              <p className="text-sm">{animeInfo?.info?.title}</p>
+              <p className="text-sm">{animeInfo?.info?.title || "N/A"}</p>
             </div>
             <div className="flex my-4 text-sm">
               <ul className="w-full">
                 <li className="my-1">Episodes: {animeInfo?.info?.episodes || "N/A"}</li>
-                <li className="my-1">Type: {animeInfo?.info?.type}</li>
-                <li className="my-1">Aired: {animeInfo?.info?.aired?.string}</li>
-                <li className="my-1">Popularity: {animeInfo?.info?.popularity}</li>
-                <li className="my-1">Season: {animeInfo?.info?.season}</li>
-                <li className="my-1">Status: {animeInfo?.info?.status}</li>
+                <li className="my-1">Type: {animeInfo?.info?.type || "N/A"}</li>
+                <li className="my-1">Aired: {animeInfo?.info?.aired?.string || "N/A"}</li>
+                <li className="my-1">Popularity: {animeInfo?.info?.popularity || "N/A"}</li>
+                <li className="my-1">Season: {animeInfo?.info?.season || "N/A"}</li>
+                <li className="my-1">Status: {animeInfo?.info?.status || "N/A"}</li>
               </ul>
               <ul className="w-full">
                 <li className="my-1 flex">
@@ -89,21 +89,21 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
                     {
                       animeInfo?.info?.studios?.map((item: any, i: number) => (
                         <li className="first:ml-2" key={`studio-${i}`}>{item.name}</li>
-                      ))
+                      )) || "N/A"
                     }
                   </ul>
                 </li>
-                <li className="my-1">Rating: {animeInfo?.info?.rating}</li>
-                <li className="my-1">Year: {animeInfo?.info?.year}</li>
-                <li className="my-1">Score: {animeInfo?.info?.score}</li>
-                <li className="my-1">Source: {animeInfo?.info?.source}</li>
+                <li className="my-1">Rating: {animeInfo?.info?.rating || "N/A"}</li>
+                <li className="my-1">Year: {animeInfo?.info?.year || "N/A"}</li>
+                <li className="my-1">Score: {animeInfo?.info?.score || "N/A"}</li>
+                <li className="my-1">Source: {animeInfo?.info?.source || "N/A"}</li>
                 <li className="my-1 flex">
                   Genres:
                   <ul className="flex flex-wrap items-center gap-1">
                     {
                       animeInfo?.info?.genres?.map((item: any, i: number) => (
                         <li className="first:ml-2 text-xs" key={`genre-${i}`}>{item.name}</li>
-                      ))
+                      )) || "N/A"
                     }
                   </ul>
                 </li>
