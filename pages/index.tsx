@@ -15,13 +15,19 @@ const Home: NextPage = () => {
     people: []
   })
   const [id, setId] = useState<number>()
-
-  useEffect(() => {
+  const [searchText, setSearchText] = useState<any>()
+  const [loading, setLoading] = useState<boolean>(false)
+  
+  const queryAllAnime = () => {
     fetchAPI("https://api.jikan.moe/v4/anime")
     .then(res => {
       setAllAnime(res.data)
     })
     .catch(console.error)
+  }
+
+  useEffect(() => {
+    queryAllAnime()
   }, [])
 
   useEffect(() => {
@@ -40,15 +46,34 @@ const Home: NextPage = () => {
     })
   }
 
-  console.log(allAnime)
+  const onSearchAnime = () => {
+    if(!searchText) return queryAllAnime()
+    setLoading(true)
+    fetchAPI(`https://api.jikan.moe/v4/anime?q=${searchText}&sfw`)
+    .then(res => {
+      setAllAnime(res.data)
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
+    })
+    .catch(console.error)
+  }
 
   return (
-    <div className="container list py-20 px-6">
-      {
-        allAnime?.map((anime: any, index: number) => (
-          <Card anime={anime} key={index} onClick={() => getAnime(anime.mal_id)}/>
-        ))
-      }
+    <div className="container py-20">
+      <div className="mb-12">
+        <div className="flex">
+          <input type="text" placeholder="Search" className="border rounded-tl-md rounded-bl-md p-2 focus:outline-blue-500" onChange={(e) => setSearchText(e.target.value)} />
+          <button disabled={loading} className="bg-blue-500 hover:bg-blue-700 text-white px-4 rounded-tr-md rounded-br-md -ml-1" onClick={() => onSearchAnime()}>Search</button>
+        </div>
+      </div>
+      <div className="list">
+        {
+          allAnime?.map((anime: any, index: number) => (
+            <Card anime={anime} key={index} onClick={() => getAnime(anime.mal_id)}/>
+          ))
+        }
+      </div>
       <Modal 
         showModal={showModal} 
         setShowModal={setShowModal} 

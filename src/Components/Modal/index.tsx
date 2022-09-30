@@ -17,24 +17,32 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
   const getAnimeStaff = async () => {
     fetchAPI(`https://api.jikan.moe/v4/anime/${id}/staff`)
     .then(response => {
+      console.log(response)
       setAnimeInfo({
         ...animeInfo,
         people: response.data
       })
     })
-    .catch(console.error)
+    .catch((err) => {
+      console.error(err)
+      setHasData(false)
+    })
   }
 
   const getAnimeEpisodes = async () => {
     fetchAPI(`https://api.jikan.moe/v4/anime/${id}/videos`)
     .then(response => {
+      console.log(response, id)
       setHasData(response.data.episodes.length > 0 ? true : false)
       setAnimeInfo({
         ...animeInfo,
         episodes: response.data
       })
     })
-    .catch(console.error)
+    .catch((err) => {
+      console.error(err)
+      setHasData(false)
+    })
   }
 
   const collection = (collection: any, episodes: boolean) => (
