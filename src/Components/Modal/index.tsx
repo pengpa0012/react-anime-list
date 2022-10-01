@@ -11,12 +11,22 @@ type Props = {
 
 
 function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}: Props){ 
-  const [hasData, setHasData] = useState<boolean | undefined>(undefined)
-  console.log(animeInfo)
+  const [hasEpisodeData, setHasEpisodeData] = useState<boolean | undefined>(undefined)
+  const [hasStaffData, setHasStaffData] = useState<boolean | undefined>(undefined)
+
+  
+  useEffect(() => {
+    if(showModal){
+      document.body.style.overflowY = "hidden"
+    }else {
+      document.body.style.overflowY = "scroll"
+    }
+  }, [showModal])
 
   const getAnimeStaff = async () => {
     fetchAPI(`https://api.jikan.moe/v4/anime/${id}/staff`)
     .then(response => {
+      setHasStaffData(response.people.length > 0 ? true : false)
       console.log(response)
       setAnimeInfo({
         ...animeInfo,
@@ -25,7 +35,7 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
     })
     .catch((err) => {
       console.error(err)
-      setHasData(false)
+      setHasStaffData(false)
     })
   }
 
@@ -33,7 +43,7 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
     fetchAPI(`https://api.jikan.moe/v4/anime/${id}/videos`)
     .then(response => {
       console.log(response, id)
-      setHasData(response.data.episodes.length > 0 ? true : false)
+      setHasEpisodeData(response.data.episodes.length > 0 ? true : false)
       setAnimeInfo({
         ...animeInfo,
         episodes: response.data
@@ -41,32 +51,37 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
     })
     .catch((err) => {
       console.error(err)
-      setHasData(false)
+      setHasEpisodeData(false)
     })
   }
 
   const collection = (collection: any, episodes: boolean) => (
-    <div className={`grid grid-cols-1 ${episodes ? hasData ? "lg:grid-cols-2" : "lg:grid-cols-1" : "lg:grid-cols-2"} px-2`}>
-      { episodes ? <h1 className={`${hasData || hasData == undefined ? "hidden" : "block"} text-center text-gray-500 `}>NO DATA</h1> : undefined }
-      {
-        collection?.map((item: any, i: number) => (
-          <div className="p-2 flex flex-1" key={`ep-${i}`}>
-            <img loading="lazy" alt="STAFF IMG" src={(episodes ? item.images.jpg.image_url : item.person.images.jpg.image_url) || "https://via.placeholder.com/100"} className={`mr-4 ${episodes ? "" : "w-16"} object-cover`} style={episodes ? { maxWidth: 200, maxHeight: 150 } : { maxHeight: 96 }} />
-            <div>
-              <h4 className="text-md">{episodes ? item.episode : item.person.name}</h4>
-              {
-                episodes ? <p className="text-sm">{item.title}</p> : 
-                item.positions.map((pos: any, i: number) => (
-                  <p className="text-xs" key={`pos-${i}`}>{pos}</p>
-                ))
-              }
+    <>
+      { episodes ? 
+      <h1 className={`${hasEpisodeData || hasEpisodeData == undefined ? "hidden" : "block"} text-center text-gray-500 `}>NO EPISODES DATA</h1> : 
+      <h1 className={`${hasStaffData || hasStaffData == undefined ? "hidden" : "block"} text-center text-gray-500 `}>NO STAFF DATA</h1> }
+      <div className={`grid grid-cols-1 lg:grid-cols-2 px-2`}>
+        {
+          collection?.map((item: any, i: number) => (
+            <div className="p-2 flex flex-1" key={`ep-${i}`}>
+              <img loading="lazy" alt="STAFF IMG" src={(episodes ? item.images.jpg.image_url : item.person.images.jpg.image_url) || "https://via.placeholder.com/100"} className={`mr-4 ${episodes ? "" : "w-16"} object-cover`} style={episodes ? { maxWidth: 200, maxHeight: 150 } : { maxHeight: 96 }} />
+              <div>
+                <h4 className="text-md">{episodes ? item.episode : item.person.name}</h4>
+                {
+                  episodes ? <p className="text-sm">{item.title}</p> : 
+                  item.positions.map((pos: any, i: number) => (
+                    <p className="text-xs" key={`pos-${i}`}>{pos}</p>
+                  ))
+                }
+              </div>
             </div>
-          </div>
-        ))
-      }
-    </div>
+          ))
+        }
+      </div>
+    </>
   )
 
+  console.log(animeInfo)
   return (
     <>
       <div className={`modal-cover ${showModal ? "pointer-events-auto overflow-y-scroll" : "pointer-events-none overflow-y-hidden"}`}>
@@ -123,14 +138,14 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
             </div>
             <div className="flex justify-between items-center my-4">
               <h3 className="text-xl">Latest Episodes</h3>
-              <button className="py-2 px-4 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed" disabled={animeInfo?.episodes?.episodes?.length > 0 || hasData == false ? true : false} onClick={getAnimeEpisodes}>
+              <button className="py-2 px-4 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed" disabled={hasEpisodeData || hasEpisodeData == false} onClick={getAnimeEpisodes}>
                 Show
               </button>
             </div>
             {collection(animeInfo?.episodes?.episodes, true)}
             <div className="flex justify-between items-center my-4">
               <h3 className="text-xl">Staff</h3>
-              <button className="py-2 px-4 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed" disabled={animeInfo?.people?.length > 0 ? true : false} onClick={getAnimeStaff}>
+              <button className="py-2 px-4 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed" disabled={hasStaffData || hasStaffData == false} onClick={getAnimeStaff}>
                 Show
               </button>
             </div>
@@ -144,7 +159,8 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
             episodes: {},
             people: []
           })
-          setHasData(undefined)
+          setHasEpisodeData(undefined)
+          setHasStaffData(undefined)
         }}></div>
       </div>
     </>
