@@ -19,10 +19,6 @@ const Home: NextPage = () => {
 
   return (
     <div className="container py-20">
-      <div className="flex justify-between">
-        <h1 className="text-5xl font-bold">ANIME LIST</h1>
-        <button className="border rounded-md px-4 py-2" onClick={() => router.push("/search")}>Search Anime</button>
-      </div>  
       <div className="my-20">
         <h2 className="text-xl font-bold mb-4">Top 10 Anime</h2>
         <div className="flex">

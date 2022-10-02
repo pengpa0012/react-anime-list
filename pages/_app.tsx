@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
         <script src="https://cdn.tailwindcss.com" defer></script>
       </Head>
-      {/* <Navbar /> */}
+      <Navbar />
       <Component {...pageProps} />
     </>
   )
