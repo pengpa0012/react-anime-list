@@ -21,7 +21,7 @@ function search() {
   }, [])
   
   const queryAllAnime = () => {
-    fetchAPI("https://api.jikan.moe/v4/anime/5114")
+    fetchAPI("https://api.jikan.moe/v4/anime")
     .then(res => {
       console.log(res)
       setAllAnime(res.data)
