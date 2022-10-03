@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { fetchAPI } from '../../Utilities/Config'
 import { Anime } from '../../Utilities/Types'
@@ -18,7 +19,6 @@ type Props = {
 function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}: Props){ 
   const [hasEpisodeData, setHasEpisodeData] = useState<boolean | undefined>(undefined)
   const [hasStaffData, setHasStaffData] = useState<boolean | undefined>(undefined)
-
   
   useEffect(() => {
     if(showModal){
