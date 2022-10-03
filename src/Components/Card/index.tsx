@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import { Anime } from '../../Utilities/Types'
 
 type Props = {
-  anime: any
+  anime: Anime
   home?: boolean
   onClick?: () => void
 }
@@ -11,7 +12,7 @@ function Card({anime, onClick, home, ...props}: Props) {
 
   return (
     <>
-      <div className={`card ${home ? "card-home" : ""}`} onClick={onClick}>
+      <div className="card" onClick={onClick}>
         <div className="card-overlay"></div>
         <div className="card-details">
           <h1 className="text-2xl font-semibold mb-4">{anime.title}</h1>

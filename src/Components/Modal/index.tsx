@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { fetchAPI } from '../../Utilities/Config'
+import { Anime } from '../../Utilities/Types'
 
 type Props = {
-  animeInfo: any
+  animeInfo: {
+    info: Anime
+    episodes: any
+    people: any
+  }
   showModal: boolean
   setShowModal: any
   setAnimeInfo: any

@@ -2,8 +2,11 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Navbar from '../src/Components/Navbar'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter()
+  console.log(router)
   return (
     <>
       <Head>
@@ -12,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
         <script src="https://cdn.tailwindcss.com" defer></script>
       </Head>
-      <Navbar />
+      { router.pathname == "/" || "/search"  ?  <Navbar /> : undefined }
       <Component {...pageProps} />
     </>
   )

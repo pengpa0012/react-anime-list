@@ -28,18 +28,8 @@ body {
   overflow: hidden;
 }
 
-.card-home {
-  transition: 500ms;
-}
-
 .card:hover {
   transform: scale(1.2);
-  z-index: 2;
-}
-
-.card-home:hover {
-  width: 100%;
-  transform: scale(1);
   z-index: 2;
 }
 
