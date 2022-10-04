@@ -34,7 +34,7 @@ const Home: NextPage = () => {
         <h1 className="text-4xl mb-6 px-2">Top Anime</h1>
         <div className="flex flex-col lg:flex-row px-2">
           <div className="w-full md:w-1/2 mb-12 lg:mb-0 mr-0 lg:mr-6">
-            <img src={animeTop?.images?.jpg.large_image_url} className="w-full"/>
+            <img src={animeTop?.images?.jpg.large_image_url} className="w-full rounded-md"/>
           </div>
           <div className="w-full">
             <div className="mb-6">
@@ -66,7 +66,7 @@ const Home: NextPage = () => {
         </div>
       </div>
       <div className="mb-20">
-        <h2 className="text-3xl mb-4 px-2">Season Anime</h2>
+        <h2 className="text-3xl mb-4 px-2">Seasonal Animes</h2>
         <div className="list">
           {
             seasonAnime?.data.map((anime: any, index: number) => (

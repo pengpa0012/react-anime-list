@@ -97,9 +97,12 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
             : undefined
           }
           <div className="p-6">
-            <div className="mb-4">
-              <h3 className="text-2xl">{animeInfo?.info?.title_english || animeInfo?.info?.title}</h3>
-              <p className="text-sm">{animeInfo?.info?.title || "N/A"}</p>
+            <div className="flex justify-between items-center mb-4">
+              <div>
+                <h3 className="text-2xl">{animeInfo?.info?.title_english || animeInfo?.info?.title}</h3>
+                <p className="text-sm">{animeInfo?.info?.title || "N/A"}</p>
+              </div>
+              <button className="border rounded-md py-2 px-4">View Details</button>
             </div>
             <div className="flex my-4 text-sm">
               <ul className="w-full">
@@ -141,7 +144,7 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
               <h3 className="text-xl mb-2">Synopsis</h3>
               <p className="text-sm text-gray-600 leading-snug">{animeInfo?.info?.synopsis}</p>
             </div>
-            <div className="flex justify-between items-center my-4">
+            {/* <div className="flex justify-between items-center my-4">
               <h3 className="text-xl">Latest Episodes</h3>
               <button className="py-2 px-4 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed" disabled={hasEpisodeData || hasEpisodeData == false} onClick={getAnimeEpisodes}>
                 Show
@@ -154,7 +157,7 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
                 Show
               </button>
             </div>
-            {collection(animeInfo?.people, false)}
+            {collection(animeInfo?.people, false)} */}
           </div>
         </div>
         <div className={`overlay ${showModal ? "active" : ""}`} onClick={() => {
