@@ -60,7 +60,7 @@ const Home: NextPage = () => {
                 </ul>
               </div>
               <p className="text-md text-gray-500 leading-snug my-6">{animeTop?.synopsis}</p>
-              <button className="border rouded-md py-2 px-4">View Details</button>
+              <button className="border rouded-md py-2 px-4" onClick={() => router.push(`/profile?id=${animeTop?.mal_id}`)}>View Details</button>
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@ const Home: NextPage = () => {
         <div className="list">
           {
             seasonAnime?.data.map((anime: any, index: number) => (
-              <Card anime={anime} key={index}/>
+              <Card anime={anime} key={index} onClick={() => router.push(`/profile?id=${anime?.mal_id}`)}/>
             ))
           }
         </div>

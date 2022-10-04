@@ -25,7 +25,6 @@ function search() {
     .catch(console.error)
   }, [router.query])
 
-  console.log(router.query.q == undefined, router.query.q)
 
 
   const getAnime = async (id: number) => {
