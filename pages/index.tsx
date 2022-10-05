@@ -33,7 +33,7 @@ const Home: NextPage = () => {
       <div className="mb-20">
         <h1 className="text-4xl mb-6 px-2">Top Anime</h1>
         <div className="flex flex-col lg:flex-row px-2">
-          <div className="w-full md:w-1/2 mb-12 lg:mb-0 mr-0 lg:mr-6">
+          <div className="w-full lg:w-1/2 mb-12 lg:mb-0 mr-0 lg:mr-10">
             <img src={animeTop?.images?.jpg.large_image_url} className="w-full rounded-md"/>
           </div>
           <div className="w-full">
