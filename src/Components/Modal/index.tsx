@@ -17,6 +17,7 @@ type Props = {
 
 
 function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}: Props){ 
+  const router = useRouter()
   const [hasEpisodeData, setHasEpisodeData] = useState<boolean | undefined>(undefined)
   const [hasStaffData, setHasStaffData] = useState<boolean | undefined>(undefined)
   
@@ -102,7 +103,7 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
                 <h3 className="text-2xl">{animeInfo?.info?.title_english || animeInfo?.info?.title}</h3>
                 <p className="text-sm">{animeInfo?.info?.title || "N/A"}</p>
               </div>
-              <button className="border rounded-md py-2 px-4">View Details</button>
+              <button className="border rounded-md py-2 px-4" onClick={() => router.push(`/profile?id=${animeInfo?.info?.mal_id}`)}>View Details</button>
             </div>
             <div className="flex my-4 text-sm">
               <ul className="w-full">

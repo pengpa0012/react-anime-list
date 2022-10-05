@@ -35,12 +35,10 @@ function Search({setAllAnime, queryAllAnime, ...props} : Props) {
     
 
   return (
-    <div className="mb-12">
-      <div className="flex">
-        <input type="text" placeholder="Search" className="border rounded-tl-md rounded-bl-md p-2 focus:outline-blue-500" onChange={(e) => {
-          autoCompleteSearch(e.target.value)}} />
-        <button disabled={loading} className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-700/50 text-white px-4 rounded-tr-md rounded-br-md -ml-1" onClick={() => onSearchAnime()}>Search</button>
-      </div>
+    <div className="flex z-50">
+      <input type="text" placeholder="Search" className="border rounded-tl-md rounded-bl-md p-2 focus:outline-blue-500" onChange={(e) => {
+        autoCompleteSearch(e.target.value)}} />
+      <button disabled={loading} className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-700/50 text-white px-4 rounded-tr-md rounded-br-md -ml-1" onClick={() => onSearchAnime()}>Search</button>
     </div>
   )
 }
