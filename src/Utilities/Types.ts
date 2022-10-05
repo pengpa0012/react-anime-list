@@ -63,3 +63,19 @@ export type Anime = {
   url: string
   year: number
 }
+
+export type Statistics = {
+  watching: number,
+  completed: number,
+  on_hold: number,
+  dropped: number,
+  plan_to_watch: number,
+  total: number,
+  scores: [
+    {
+      score: number,
+      votes: number,
+      percentage: number
+    }
+  ]
+}

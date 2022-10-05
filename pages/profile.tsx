@@ -1,23 +1,31 @@
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { fetchAPI } from '../src/Utilities/Config'
-import { Anime } from '../src/Utilities/Types'
+import { Anime, Statistics } from '../src/Utilities/Types'
 
 function profile() {
   const router = useRouter()
   const [animeProfile, setAnimeProfile] = useState<Anime>()
+  const [stats, setStats] = useState<object[]>()
 
   useEffect(() => {
     if(!router.isReady) return;
-    fetchAPI(`https://api.jikan.moe/v4/anime/${router.query.id}`)
-    .then(res => {
-      console.log(res)
-      setAnimeProfile(res.data)
+    Promise.all([
+      fetchAPI(`https://api.jikan.moe/v4/anime/${router.query.id}`),
+      fetchAPI(`https://api.jikan.moe/v4/anime/${router.query.id}/statistics`)
+    ])
+    .then(([resAnime, resStats]) => {
+      const entries = Object.entries(resStats.data).slice(1,-1).map(key => {
+        return {title: key[0].split("_").join(" ").toUpperCase(), number: key[1]}
+      });
+      setStats(entries)
+      setAnimeProfile(resAnime.data)
     })
     .catch(console.error)
   }, [router.isReady])
 
-  
+  console.log(stats)
+
   return (
     <div className="container py-20 px-2">
       <div className="flex flex-col lg:flex-row">
@@ -80,8 +88,21 @@ function profile() {
           </div>
         </div>
       </div>
-      <div className="my-6">
+      <div className="my-20">
         <iframe className="w-full" height="500" src={`${animeProfile?.trailer?.embed_url}?autoplay=0&mute=0&showinfo=0&rel=0`}></iframe>
+      </div>
+      <div className="my-20">
+        <h2 className="text-4xl font-light mb-2 text-center">Statistics</h2>
+        <ul className="flex flex-wrap justify-center gap-10 py-6">
+          {
+           stats?.map((stat: any, i: number) => (
+              <li className="text-center" key={`stat-${i}`}>
+                <span className="block mb-4">{stat.title}</span>
+                <p className="text-gray-500 text-4xl grid place-items-center mx-auto">{stat.number}</p>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </div>
   )
