@@ -16,7 +16,7 @@ function profile() {
     ])
     .then(([resAnime, resStats]) => {
       const entries = Object.entries(resStats.data).slice(1,-1).map(key => {
-        return {title: key[0].split("_").join(" ").toUpperCase(), number: key[1]}
+        return {title: key[0].split("_").join(" ").toUpperCase(), number: key[1]?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
       });
       setStats(entries)
       setAnimeProfile(resAnime.data)
@@ -24,7 +24,6 @@ function profile() {
     .catch(console.error)
   }, [router.isReady])
 
-  console.log(stats)
 
   return (
     <div className="container py-20 px-2">

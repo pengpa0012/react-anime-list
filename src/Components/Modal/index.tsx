@@ -87,7 +87,6 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
     </>
   )
 
-  console.log(animeInfo)
   return (
     <>
       <div className={`modal-cover ${showModal ? "pointer-events-auto overflow-y-scroll" : "pointer-events-none overflow-y-hidden"}`}>
@@ -103,7 +102,10 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
                 <h3 className="text-2xl">{animeInfo?.info?.title_english || animeInfo?.info?.title}</h3>
                 <p className="text-sm">{animeInfo?.info?.title || "N/A"}</p>
               </div>
-              <button className="border rounded-md py-2 px-4" onClick={() => router.push(`/profile?id=${animeInfo?.info?.mal_id}`)}>View Details</button>
+              <button className="border rounded-md py-2 px-4" onClick={() => {
+                document.body.style.overflowY = "scroll"
+                router.push(`/profile?id=${animeInfo?.info?.mal_id}`)
+                }}>View Details</button>
             </div>
             <div className="flex my-4 text-sm">
               <ul className="w-full">
