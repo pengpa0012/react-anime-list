@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { fetchAPI } from '../src/Utilities/Config'
+import { fetchAPI, formatNumberToComma } from '../src/Utilities/Config'
 import { Anime, Statistics } from '../src/Utilities/Types'
 
 function profile() {
@@ -15,15 +15,14 @@ function profile() {
       fetchAPI(`https://api.jikan.moe/v4/anime/${router.query.id}/statistics`)
     ])
     .then(([resAnime, resStats]) => {
-      const entries = Object.entries(resStats.data).slice(1,-1).map(key => {
-        return {title: key[0].split("_").join(" ").toUpperCase(), number: key[1]?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+      const entries = Object.entries(resStats.data).slice(1,-1).map((key: any) => {
+        return {title: key[0].split("_").join(" ").toUpperCase(), number: formatNumberToComma(key[1])}
       });
       setStats(entries)
       setAnimeProfile(resAnime.data)
     })
     .catch(console.error)
   }, [router.isReady])
-
 
   return (
     <div className="container py-20 px-2">
@@ -46,9 +45,10 @@ function profile() {
                   Studios: 
                   <ul className="flex flex-wrap items-center gap-1">
                     {
+                      animeProfile?.studios.length! > 0 ?
                       animeProfile?.studios?.map((item: any, i: number) => (
                         <li className="first:ml-2" key={`studio-${i}`}>{item.name}</li>
-                      )) || "N/A"
+                      )) : <li className="ml-2">N/A</li>
                     }
                   </ul>
                 </li>
@@ -62,9 +62,10 @@ function profile() {
                   Genres:
                   <ul className="flex flex-wrap items-center gap-1">
                     {
+                      animeProfile?.genres.length! > 0 ?
                       animeProfile?.genres?.map((item: any, i: number) => (
                         <li className="first:ml-2" key={`genre-${i}`}>{item.name}</li>
-                      )) || "N/A"
+                      )) : <li className="ml-2">N/A</li>
                     }
                   </ul>
                 </li>
@@ -72,9 +73,10 @@ function profile() {
                   Producers: 
                   <ul className="flex flex-wrap items-center gap-1">
                     {
+                      animeProfile?.producers.length! ?
                       animeProfile?.producers?.map((item: any, i: number) => (
                         <li className="first:ml-2" key={`studio-${i}`}>{item.name}</li>
-                      )) || "N/A"
+                      )) : <li className="ml-2">N/A</li>
                     }
                   </ul>
                 </li>

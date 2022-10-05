@@ -14,7 +14,7 @@ export type Anime = {
   episodes: number
   explicit_genres: any[]
   favorites: number
-  genres: any[]
+  genres: string[]
   images: {
     jpg: {
       image_url: string
