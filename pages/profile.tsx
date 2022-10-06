@@ -114,7 +114,11 @@ function profile() {
         </div>
       </div>
       <div className="my-20">
-        <iframe className="w-full" height="500" src={`${animeProfile?.trailer?.embed_url}?autoplay=0&mute=0&showinfo=0&rel=0`}></iframe>
+        {
+          animeProfile?.trailer?.embed_url ? 
+            <iframe className="w-full" height="500" src={`${animeProfile?.trailer?.embed_url}?autoplay=0&mute=0&showinfo=0&rel=0`}></iframe>
+          : <h2 className="text-5xl text-center text-gray-500 py-20">NO TRAILER DATA</h2>
+        }
       </div>
       <div className="my-20">
         <h2 className="text-4xl font-light mb-2 text-center">Statistics</h2>

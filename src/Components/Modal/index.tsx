@@ -29,72 +29,14 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
     }
   }, [showModal])
 
-  const getAnimeStaff = async () => {
-    fetchAPI(`https://api.jikan.moe/v4/anime/${id}/staff`)
-    .then(response => {
-      setHasStaffData(response.people.length > 0 ? true : false)
-      console.log(response)
-      setAnimeInfo({
-        ...animeInfo,
-        people: response.data
-      })
-    })
-    .catch((err) => {
-      console.error(err)
-      setHasStaffData(false)
-    })
-  }
-
-  const getAnimeEpisodes = async () => {
-    fetchAPI(`https://api.jikan.moe/v4/anime/${id}/videos`)
-    .then(response => {
-      console.log(response, id)
-      setHasEpisodeData(response.data.episodes.length > 0 ? true : false)
-      setAnimeInfo({
-        ...animeInfo,
-        episodes: response.data
-      })
-    })
-    .catch((err) => {
-      console.error(err)
-      setHasEpisodeData(false)
-    })
-  }
-
-  const collection = (collection: any, episodes: boolean) => (
-    <>
-      { episodes ? 
-      <h1 className={`${hasEpisodeData || hasEpisodeData == undefined ? "hidden" : "block"} text-center text-gray-500 `}>NO EPISODES DATA</h1> : 
-      <h1 className={`${hasStaffData || hasStaffData == undefined ? "hidden" : "block"} text-center text-gray-500 `}>NO STAFF DATA</h1> }
-      <div className={`grid grid-cols-1 lg:grid-cols-2 px-2`}>
-        {
-          collection?.map((item: any, i: number) => (
-            <div className="p-2 flex flex-1" key={`ep-${i}`}>
-              <img loading="lazy" alt="STAFF IMG" src={(episodes ? item.images.jpg.image_url : item.person.images.jpg.image_url) || "https://via.placeholder.com/100"} className={`mr-4 ${episodes ? "" : "w-16"} object-cover`} style={episodes ? { maxWidth: 200, maxHeight: 150 } : { maxHeight: 96 }} />
-              <div>
-                <h4 className="text-md">{episodes ? item.episode : item.person.name}</h4>
-                {
-                  episodes ? <p className="text-sm">{item.title}</p> : 
-                  item.positions.map((pos: any, i: number) => (
-                    <p className="text-xs" key={`pos-${i}`}>{pos}</p>
-                  ))
-                }
-              </div>
-            </div>
-          ))
-        }
-      </div>
-    </>
-  )
-
   return (
     <>
       <div className={`modal-cover ${showModal ? "pointer-events-auto overflow-y-scroll" : "pointer-events-none overflow-y-hidden"}`}>
         <div className={`modal ${showModal ? "active" : ""}`}>
           {
-            Object.keys(animeInfo?.info).length > 1 ?
+            animeInfo?.info?.trailer?.embed_url ? 
             <iframe className="w-full" height="400" src={`${animeInfo?.info?.trailer?.embed_url}&autoplay=1&mute=1&showinfo=0&rel=0`}></iframe>
-            : undefined
+            : <h2 className="text-5xl text-center text-gray-500 py-20">NO TRAILER DATA</h2>
           }
           <div className="p-6">
             <div className="flex justify-between items-center mb-4">
@@ -147,20 +89,6 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
               <h3 className="text-xl mb-2">Synopsis</h3>
               <p className="text-sm text-gray-600 leading-snug">{animeInfo?.info?.synopsis}</p>
             </div>
-            {/* <div className="flex justify-between items-center my-4">
-              <h3 className="text-xl">Latest Episodes</h3>
-              <button className="py-2 px-4 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed" disabled={hasEpisodeData || hasEpisodeData == false} onClick={getAnimeEpisodes}>
-                Show
-              </button>
-            </div>
-            {collection(animeInfo?.episodes?.episodes, true)}
-            <div className="flex justify-between items-center my-4">
-              <h3 className="text-xl">Staff</h3>
-              <button className="py-2 px-4 rounded-md border disabled:opacity-50 disabled:cursor-not-allowed" disabled={hasStaffData || hasStaffData == false} onClick={getAnimeStaff}>
-                Show
-              </button>
-            </div>
-            {collection(animeInfo?.people, false)} */}
           </div>
         </div>
         <div className={`overlay ${showModal ? "active" : ""}`} onClick={() => {
