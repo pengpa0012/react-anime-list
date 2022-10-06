@@ -1,12 +1,15 @@
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { fetchAPI, formatNumberToComma } from '../src/Utilities/Config'
+import { fetchAPI, formatNumberToComma, profileData } from '../src/Utilities/Config'
 import { Anime, Statistics } from '../src/Utilities/Types'
 
 function profile() {
   const router = useRouter()
   const [animeProfile, setAnimeProfile] = useState<Anime>()
   const [stats, setStats] = useState<object[]>()
+  const [staff, setStaff] = useState<object[]>()
+  const [relatedAnimes, setRelatedAnimes] = useState<object[]>()
+  const [latestEpisodes, setLatestEpisodes] = useState<object[]>()
 
   useEffect(() => {
     if(!router.isReady) return;
@@ -23,6 +26,28 @@ function profile() {
     })
     .catch(console.error)
   }, [router.isReady])
+
+  const loadData = async (endpoint: string, setterName: string) => {
+    fetchAPI(`https://api.jikan.moe/v4/anime/${router.query.id}/${endpoint}`)
+    .then(response => {
+      const responseConfig = endpoint == "videos" ? response.data.episodes : response.data
+
+      switch(setterName) {
+        case "Staff": 
+          setStaff(responseConfig)
+          break
+        case "Related Animes":
+          setRelatedAnimes(responseConfig)
+          break
+        case "Latest Episodes":
+          setLatestEpisodes(responseConfig)
+        default:
+          break
+        
+      }
+    })
+    .catch(console.error)
+  }
 
   return (
     <div className="container py-20 px-2">
@@ -104,6 +129,53 @@ function profile() {
             ))
           }
         </ul>
+      </div>
+      <div className="my-20">
+        {
+          profileData?.map((data: {title: string, endpoint: string}, i: number) => {
+
+            const collection = data.title == "Staff" ? staff : undefined || data.title == "Related Animes" ? relatedAnimes?.sort((a:any, b:any) => b.entry.length - a.entry.length) : data.title == "Latest Episodes" ? latestEpisodes : undefined
+
+            return <div className="border border-t-0 border-l-0 border-r-0 py-8" key={`data-${i}`}>
+              <div className="flex justify-between">
+                <h2 className="text-gray-500 text-3xl">{data.title}</h2>
+                <button className="border rounded-md py-2 px-4" onClick={() => loadData(data.endpoint, data.title)}>Show</button>
+              </div>
+              <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-2`}>
+                {
+                  data.title == "Related Animes" ? 
+                  collection?.map((item: any, i: number) => (
+                    <div className="p-2" key={`relation-${i}`}>
+                      <h1>{item.relation}</h1>
+                      <ul>
+                        {
+                          item.entry.map((anime: any, i: number) => (
+                            <li key={`name-${i}`}>{anime.name}</li>
+                          ))
+                        }
+                      </ul>
+                    </div>
+                  ))
+                  :
+                  collection?.map((item: any, i: number) => (
+                    <div className="p-2 flex" key={`ep-${i}`}>
+                      <img loading="lazy" alt="IMG" src={(data.title == "Staff" ? item.person.images.jpg.image_url : item.images.jpg.image_url )|| "https://via.placeholder.com/100"} className={`mr-4 w-16 object-cover`} />
+                      <div>
+                        <h4 className="text-md">{data.title == "Staff" ? item.person.name : item.episode}</h4>
+                        {
+                          data.title == "Staff" ? 
+                          item.positions.map((pos: any, i: number) => (
+                            <p className="text-xs" key={`pos-${i}`}>{pos}</p>
+                          )) : <p className="text-sm">{item.title}</p>
+                        }
+                      </div>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          })
+        }
       </div>
     </div>
   )

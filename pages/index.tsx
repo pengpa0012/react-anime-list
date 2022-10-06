@@ -60,7 +60,7 @@ const Home: NextPage = () => {
                 </ul>
               </div>
               <p className="text-md text-gray-500 leading-snug my-6">{animeTop?.synopsis}</p>
-              <button className="border rouded-md py-2 px-4" onClick={() => router.push(`/profile?id=${animeTop?.mal_id}`)}>View Details</button>
+              <button className="border rounded-md py-2 px-4" onClick={() => router.push(`/profile?id=${animeTop?.mal_id}`)}>View Details</button>
             </div>
           </div>
         </div>

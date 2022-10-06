@@ -8,3 +8,18 @@ export const fetchAPI = async (url: string) => {
 export const formatNumberToComma = (string: string) => {
   return string?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
+
+export const profileData = [
+  {
+    title: "Staff",
+    endpoint: "staff",
+  },
+  {
+    title: "Related Animes",
+    endpoint: "relations",
+  },
+  {
+    title: "Latest Episodes",
+    endpoint: "videos",
+  }
+]
