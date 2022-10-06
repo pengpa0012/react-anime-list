@@ -13,6 +13,9 @@ function profile() {
 
   useEffect(() => {
     if(!router.isReady) return;
+    setStaff(undefined)
+    setRelatedAnimes(undefined)
+    setLatestEpisodes(undefined)
     Promise.all([
       fetchAPI(`https://api.jikan.moe/v4/anime/${router.query.id}`),
       fetchAPI(`https://api.jikan.moe/v4/anime/${router.query.id}/statistics`)
@@ -25,7 +28,7 @@ function profile() {
       setAnimeProfile(resAnime.data)
     })
     .catch(console.error)
-  }, [router.isReady])
+  }, [router.isReady, router.query.id])
 
   const loadData = async (endpoint: string, setterName: string) => {
     fetchAPI(`https://api.jikan.moe/v4/anime/${router.query.id}/${endpoint}`)
@@ -154,7 +157,7 @@ function profile() {
                       <ul>
                         {
                           item.entry.map((anime: any, i: number) => (
-                            <li key={`name-${i}`}>{anime.name}</li>
+                            <li key={`name-${i}`} onClick={() => router.push(`/profile?id=${anime.mal_id}`)} className="cursor-pointer hover:text-blue-500 hover:underline inline-block">{anime.name}</li>
                           ))
                         }
                       </ul>
