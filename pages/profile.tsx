@@ -57,7 +57,7 @@ function profile() {
         <div className="w-full">
           <div className="mb-6">
             <h2 className="text-3xl mb-4">{animeProfile?.title_english || animeProfile?.title}</h2>
-            <div className="flex my-4 text-sm">
+            <div className="flex flex-col sm:flex-row my-4 text-sm">
               <ul className="w-full">
                 <li className="my-1">Episodes: {animeProfile?.episodes || "N/A"}</li>
                 <li className="my-1">Type: {animeProfile?.type || "N/A"}</li>

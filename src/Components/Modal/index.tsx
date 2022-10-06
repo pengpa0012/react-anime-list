@@ -49,7 +49,7 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
                 router.push(`/profile?id=${animeInfo?.info?.mal_id}`)
                 }}>View Details</button>
             </div>
-            <div className="flex my-4 text-sm">
+            <div className="flex flex-col sm:flex-row my-4 text-sm">
               <ul className="w-full">
                 <li className="my-1">Episodes: {animeInfo?.info?.episodes || "N/A"}</li>
                 <li className="my-1">Type: {animeInfo?.info?.type || "N/A"}</li>
