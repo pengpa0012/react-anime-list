@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router'
+import { ParsedUrlQuery } from 'querystring'
 import React, { useEffect, useState } from 'react'
+import ReactPaginate from 'react-paginate'
 import Card from '../src/Components/Card'
 import Modal from '../src/Components/Modal'
 import Search from '../src/Components/Search'
@@ -15,15 +17,25 @@ function search() {
     people: []
   })
   const [id, setId] = useState<number>()
+  const [totalAnime, setTotalAnime] = useState<number>(0)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [loading, setLoading] = useState<boolean>(false)
   
   useEffect(() => {
-    (router.query.q == "all" ? fetchAPI("https://api.jikan.moe/v4/anime") : fetchAPI(`https://api.jikan.moe/v4/anime?q=${router.query.q}&sfw`))
+    searchAnime(router.query.page ? router.query.page : currentPage)
+  }, [router.query.q, router.pathname])
+
+  const searchAnime = (page: any) => {
+    setLoading(true)
+    fetchAPI(`https://api.jikan.moe/v4/anime?q=${router.query.q}&sfw&page=${page}`)
     .then(res => {
       console.log(res)
+      setLoading(false)
+      setTotalAnime(res.pagination.last_visible_page)
       setAllAnime(res.data)
     })
     .catch(console.error)
-  }, [router.query])
+  }
 
 
 
@@ -35,19 +47,33 @@ function search() {
     })
   }
 
-  console.log(allAnime)
   
   return (
     <div className="container py-20">
       <div className="list">
         {
+          loading ? <h2 className={`${loading ? "block" : "hidden"} text-5xl text-center text-gray-500 py-20`}>LOADING...</h2>
+          :
           allAnime?.length! > 0 ?
           allAnime?.map((anime: any, index: number) => (
             <Card anime={anime} key={index} onClick={() => getAnime(anime.mal_id)}/>
           ))
-          : <h1>Loading</h1>
+          : <h2 className="text-5xl text-center text-gray-500 py-20">NO DATA</h2>
         }
       </div>
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel=">"
+        onPageChange={(e: { selected: number }) => {
+          router.push(`/search?q=${router.query.q}&page=${e.selected + 1}`)
+          searchAnime(e.selected + 1)
+          setCurrentPage(e.selected + 1)
+        }}
+        pageRangeDisplayed={5}
+        pageCount={totalAnime}
+        previousLabel="<"
+        className="flex gap-10 justify-center my-20"
+      />
       <Modal 
         showModal={showModal} 
         setShowModal={setShowModal} 

@@ -15,11 +15,11 @@ export const profileData = [
     endpoint: "staff",
   },
   {
-    title: "Related Animes",
-    endpoint: "relations",
-  },
-  {
     title: "Latest Episodes",
     endpoint: "videos",
+  },
+  {
+    title: "Related Animes",
+    endpoint: "relations",
   }
 ]
