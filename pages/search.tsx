@@ -22,12 +22,12 @@ function search() {
   const [loading, setLoading] = useState<boolean>(false)
   
   useEffect(() => {
-    searchAnime(router.query.page ? router.query.page : currentPage)
-  }, [router.query.q, router.pathname])
+    searchAnime(router.query.page ? router.query.page : router.asPath.split("=")[2])
+  }, [router.pathname, router.query])
 
   const searchAnime = (page: any) => {
     setLoading(true)
-    fetchAPI(`https://api.jikan.moe/v4/anime?q=${router.query.q}&sfw&page=${page}`)
+    fetchAPI(`https://api.jikan.moe/v4/anime?q=${router.query.q ? router.query.q : ""}&sfw&page=${page}`)
     .then(res => {
       console.log(res)
       setLoading(false)
@@ -66,7 +66,6 @@ function search() {
         nextLabel=">"
         onPageChange={(e: { selected: number }) => {
           router.push(`/search?q=${router.query.q}&page=${e.selected + 1}`)
-          searchAnime(e.selected + 1)
           setCurrentPage(e.selected + 1)
         }}
         pageRangeDisplayed={5}
