@@ -18,23 +18,26 @@ function search() {
   })
   const [id, setId] = useState<number>()
   const [totalAnime, setTotalAnime] = useState<number>(0)
-  const [currentPage, setCurrentPage] = useState<number>(1)
   const [loading, setLoading] = useState<boolean>(false)
+  const [currentPage, setCurrentPage] = useState<number>(0)
   
   useEffect(() => {
-    searchAnime(router.query.page ? router.query.page : router.asPath.split("=")[2])
-  }, [router.pathname, router.query])
-
-  const searchAnime = (page: any) => {
     setLoading(true)
-    fetchAPI(`https://api.jikan.moe/v4/anime?q=${router.query.q ? router.query.q : ""}&sfw&page=${page}`)
-    .then(res => {
-      console.log(res)
-      setLoading(false)
-      setTotalAnime(res.pagination.last_visible_page)
-      setAllAnime(res.data)
-    })
-    .catch(console.error)
+    searchAnime()
+  }, [router.isReady, router.query.q, router.query.page])
+
+  const searchAnime = async () => {
+      fetchAPI(`https://api.jikan.moe/v4/anime?q=${router.query.q ? router.query.q : ""}&sfw&page=${router.query.page ? router.query.page : 1}`)
+      .then(res => {
+        setCurrentPage(res?.pagination?.current_page)
+        setTotalAnime(res?.pagination?.last_visible_page)
+        setAllAnime(res?.data)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.error(err)
+        setLoading(false)
+      })
   }
 
 
@@ -46,32 +49,32 @@ function search() {
       info: allAnime?.filter((anime: any) => anime.mal_id == id)[0],
     })
   }
-
   
   return (
     <div className="container py-20">
-      <div className="list">
-        {
-          loading ? <h2 className={`${loading ? "block" : "hidden"} text-5xl text-center text-gray-500 py-20`}>LOADING...</h2>
-          :
-          allAnime?.length! > 0 ?
-          allAnime?.map((anime: any, index: number) => (
-            <Card anime={anime} key={index} onClick={() => getAnime(anime.mal_id)}/>
-          ))
-          : <h2 className="text-5xl text-center text-gray-500 py-20">NO DATA</h2>
-        }
-      </div>
+      {
+        loading ? <h2 className={`${loading ? "block" : "hidden"} text-5xl text-center text-gray-500 py-20`}>LOADING...</h2>
+        : 
+        <div className="list">
+          {
+            allAnime?.map((anime: any, index: number) => (
+              <Card anime={anime} key={index} onClick={() => getAnime(anime.mal_id)}/>
+            ))
+          }
+        </div>
+      }
       <ReactPaginate
         breakLabel="..."
         nextLabel=">"
         onPageChange={(e: { selected: number }) => {
+          console.log(e.selected + 1)
           router.push(`/search?q=${router.query.q}&page=${e.selected + 1}`)
-          setCurrentPage(e.selected + 1)
         }}
         pageRangeDisplayed={5}
+        initialPage={currentPage}
         pageCount={totalAnime}
         previousLabel="<"
-        className="flex gap-10 justify-center my-20"
+        className={`${totalAnime >= 25 ? "flex" : "hidden"} pagination`}
       />
       <Modal 
         showModal={showModal} 

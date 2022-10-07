@@ -18,15 +18,6 @@ function Search({setAllAnime, queryAllAnime, ...props} : Props) {
     setTimeout(() => {
       setLoading(false)
     }, 1000)
-    // setLoading(true)
-    // fetchAPI(`https://api.jikan.moe/v4/anime?q=${searchText}&sfw`)
-    // .then(res => {
-    //   setAllAnime(res.data)
-    //   setTimeout(() => {
-    //     setLoading(false)
-    //   }, 1000)
-    // })
-    // .catch(console.error)
   }
 
   const autoCompleteSearch = (text: any) => {
@@ -36,7 +27,7 @@ function Search({setAllAnime, queryAllAnime, ...props} : Props) {
 
   return (
     <div className="flex z-50">
-      <input type="text" placeholder="Search" className="border rounded-tl-md rounded-bl-md p-2 focus:outline-blue-500" onChange={(e) => {
+      <input type="text" placeholder="Search" defaultValue={router.query.q ? router.query.q : ""} className="border rounded-tl-md rounded-bl-md p-2 focus:outline-blue-500" onChange={(e) => {
         autoCompleteSearch(e.target.value)}} />
       <button disabled={loading} className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-700/50 text-white px-4 rounded-tr-md rounded-br-md -ml-1" onClick={() => onSearchAnime()}>Search</button>
     </div>
