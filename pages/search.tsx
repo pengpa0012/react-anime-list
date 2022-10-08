@@ -17,7 +17,13 @@ function search() {
     people: []
   })
   const [id, setId] = useState<number>()
-  const [totalAnime, setTotalAnime] = useState<number>(0)
+  const [animeCount, setanimeCount] = useState<{
+    total: number
+    perPage: number
+  }>({
+    total: 0,
+    perPage: 0
+  })
   const [loading, setLoading] = useState<boolean>(false)
   const [currentPage, setCurrentPage] = useState<number>(0)
   
@@ -29,8 +35,9 @@ function search() {
   const searchAnime = async () => {
       fetchAPI(`https://api.jikan.moe/v4/anime?q=${router.query.q ? router.query.q : ""}&sfw&page=${router.query.page ? router.query.page : 1}`)
       .then(res => {
+        console.log(res)
         setCurrentPage(res?.pagination?.current_page)
-        setTotalAnime(res?.pagination?.last_visible_page)
+        setanimeCount({total: res?.pagination?.items?.total, perPage: res?.pagination?.last_visible_page})
         setAllAnime(res?.data)
         setLoading(false)
       })
@@ -49,6 +56,7 @@ function search() {
       info: allAnime?.filter((anime: any) => anime.mal_id == id)[0],
     })
   }
+
   
   return (
     <div className="container py-20">
@@ -70,11 +78,11 @@ function search() {
           console.log(e.selected + 1)
           router.push(`/search?q=${router.query.q}&page=${e.selected + 1}`)
         }}
-        pageRangeDisplayed={5}
+        pageRangeDisplayed={10}
         initialPage={currentPage}
-        pageCount={totalAnime}
+        pageCount={animeCount.perPage}
         previousLabel="<"
-        className={`${totalAnime >= 25 ? "flex" : "hidden"} pagination`}
+        className={`${animeCount.total >= 25 ? "flex" : "hidden"} pagination`}
       />
       <Modal 
         showModal={showModal} 
