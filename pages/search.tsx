@@ -32,6 +32,7 @@ function search() {
     if(router.isReady) {
       fetchAPI(`https://api.jikan.moe/v4/anime?q=${router.query.q == "undefined" ? "" : router.query.q}&sfw&page=${router.query.page || 1}`)
       .then(res => {
+        console.log(res)
         setCurrentPage(res?.pagination?.current_page)
         setanimeCount({total: res?.pagination?.items?.total, perPage: res?.pagination?.last_visible_page})
         setAllAnime(res?.data)
@@ -52,8 +53,6 @@ function search() {
       info: allAnime?.filter((anime: any) => anime.mal_id == id)[0],
     })
   }
-
-
   
   return (
     <div className="container py-20">
@@ -70,7 +69,11 @@ function search() {
       }
       <ReactPaginate
         breakLabel="..."
-        nextLabel=">"
+        nextLabel={
+          <svg width="15" height="15" viewBox="0 0 73 108" fill="none">
+          <path d="M16.4958 16.3464L56.7043 54.0167L16.4958 91.6878" stroke="#8B8B8B" strokeWidth="15" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        }
         onPageChange={(e: { selected: number }) => {
           setCurrentPage(e.selected + 1)
           router.push(`/search?q=${router.query.q}&page=${e.selected + 1}`)
@@ -78,7 +81,11 @@ function search() {
         pageRangeDisplayed={10}
         forcePage={currentPage - 1}
         pageCount={animeCount.perPage}
-        previousLabel="<"
+        previousLabel={
+          <svg width="15" height="15" viewBox="0 0 73 108" fill="none">
+          <path d="M56.7043 91.6877L16.4958 54.0175L56.7043 16.3464" stroke="#8B8B8B" strokeWidth="15" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        }
         className={`${animeCount.total >= 25 ? "flex" : "hidden"} pagination`}
       />
       <Modal 
