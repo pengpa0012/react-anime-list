@@ -5,12 +5,20 @@ import Card from '../src/Components/Card'
 import { fetchAPI } from '../src/Utilities/Config'
 import { Anime } from '../src/Utilities/Types'
 
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import { useWindowSize } from 'react-use'
+
 const Home: NextPage = () => {
   const router = useRouter()
   const [animeTop, setAnimeTop] = useState<Anime>()
   const [seasonAnime, setSeasonAnime] = useState<{
     data: Anime[]
   }>()
+  const { width, height } = useWindowSize();
 
   useEffect(() => {
     Promise.all([
@@ -26,7 +34,7 @@ const Home: NextPage = () => {
     
   }, [])
 
-  console.log(seasonAnime)
+  console.log(height, width)
   
   return (
     <div className="container py-10">
@@ -67,13 +75,20 @@ const Home: NextPage = () => {
       </div>
       <div className="mb-20">
         <h2 className="text-3xl mb-4 px-2">Seasonal Animes</h2>
-        <div className="list">
+        <Swiper
+          spaceBetween={10}
+          slidesPerView={width <= 1170 ? width <= 700 ? 1 : 3 : 5}
+          className="home-slider"
+          loop
+        >
           {
             seasonAnime?.data.map((anime: any, index: number) => (
-              <Card anime={anime} key={index} onClick={() => router.push(`/profile?id=${anime?.mal_id}`)}/>
+              <SwiperSlide key={index} className="flex justify-center">
+                <Card anime={anime} onClick={() => router.push(`/profile?id=${anime?.mal_id}`)}/>
+              </SwiperSlide>
             ))
           }
-        </div>
+        </Swiper>
       </div>
     </div>
   )
