@@ -29,13 +29,9 @@ function search() {
   
   useEffect(() => {
     setLoading(true)
-    searchAnime()
-  }, [router.isReady, router.query.q, router.query.page])
-
-  const searchAnime = async () => {
-      fetchAPI(`https://api.jikan.moe/v4/anime?q=${router.query.q ? router.query.q : ""}&sfw&page=${router.query.page ? router.query.page : 1}`)
+    if(router.isReady) {
+      fetchAPI(`https://api.jikan.moe/v4/anime?q=${router.query.q == "undefined" ? "" : router.query.q}&sfw&page=${router.query.page || 1}`)
       .then(res => {
-        console.log(res)
         setCurrentPage(res?.pagination?.current_page)
         setanimeCount({total: res?.pagination?.items?.total, perPage: res?.pagination?.last_visible_page})
         setAllAnime(res?.data)
@@ -45,8 +41,8 @@ function search() {
         console.error(err)
         setLoading(false)
       })
-  }
-
+    }
+  }, [router.isReady, router.query])
 
 
   const getAnime = async (id: number) => {
@@ -56,6 +52,7 @@ function search() {
       info: allAnime?.filter((anime: any) => anime.mal_id == id)[0],
     })
   }
+
 
   
   return (
@@ -75,11 +72,11 @@ function search() {
         breakLabel="..."
         nextLabel=">"
         onPageChange={(e: { selected: number }) => {
-          console.log(e.selected + 1)
+          setCurrentPage(e.selected + 1)
           router.push(`/search?q=${router.query.q}&page=${e.selected + 1}`)
         }}
         pageRangeDisplayed={10}
-        initialPage={currentPage}
+        forcePage={currentPage - 1}
         pageCount={animeCount.perPage}
         previousLabel="<"
         className={`${animeCount.total >= 25 ? "flex" : "hidden"} pagination`}
