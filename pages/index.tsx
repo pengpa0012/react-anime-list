@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
 import 'swiper/css';
 import { useWindowSize } from 'react-use'
+import Carousel from '../src/Components/Carousel'
 
 const Home: NextPage = () => {
   const router = useRouter()
@@ -34,7 +35,6 @@ const Home: NextPage = () => {
     
   }, [])
 
-  console.log(height, width)
   
   return (
     <div className="container py-10">
@@ -74,21 +74,8 @@ const Home: NextPage = () => {
         </div>
       </div>
       <div className="mb-20">
-        <h2 className="text-3xl mb-4 px-2">Seasonal Animes</h2>
-        <Swiper
-          spaceBetween={10}
-          slidesPerView={width <= 1170 ? width <= 700 ? 1 : 3 : 5}
-          className="home-slider"
-          loop
-        >
-          {
-            seasonAnime?.data.map((anime: any, index: number) => (
-              <SwiperSlide key={index} className="flex justify-center">
-                <Card anime={anime} onClick={() => router.push(`/profile?id=${anime?.mal_id}`)}/>
-              </SwiperSlide>
-            ))
-          }
-        </Swiper>
+        <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Seasonal Animes</h2>
+        <Carousel items={seasonAnime} />
       </div>
     </div>
   )
