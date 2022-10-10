@@ -29,7 +29,7 @@ function Carousel({items, ...props}: Props) {
         slidesPerView={width <= 1170 ? width <= 700 ? 1 : 3 : 5}
         className="home-slider"
         loop 
-        pagination
+        pagination={{ clickable: true }}
         modules={[Pagination]}
       >
         {
