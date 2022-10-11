@@ -77,11 +77,22 @@ const Home: NextPage = () => {
       </div>
       <div className="mb-20">
         <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Seasonal Animes</h2>
-        <Carousel items={seasonAnime} />
+        <Carousel items={seasonAnime?.data} content={(content: any) => (
+          <Card anime={content} onClick={() => router.push(`/profile?id=${content?.mal_id}`)}/>
+        )}  />
       </div>
       <div className="mb-20 container">
         <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Anime Studios</h2>
-        <Carousel customData={producers} />
+        <Carousel items={producers} content={(content: any) => (
+          <div className="card">
+            <div className="card-overlay"></div>
+            <div className="card-details">
+              <h1 className="text-2xl font-semibold mb-4">{content.titles[0].title}</h1>
+              <p>Favorites: {content.favorites || "N/A"}</p>
+            </div>
+            <img src={content.images.jpg.image_url} onError={handleImgError} loading="lazy"/>
+          </div>
+        )} />
       </div>
     </div>
   )
