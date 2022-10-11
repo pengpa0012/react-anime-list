@@ -1,3 +1,4 @@
+import { DetailedHTMLProps, ImgHTMLAttributes } from "react"
 
 export const fetchAPI = async (url: string) => {
   const response = await fetch(url)
@@ -23,3 +24,7 @@ export const profileData = [
     endpoint: "relations",
   }
 ]
+
+export const handleImgError = (img: any) => {
+  img.target.src = "https://via.placeholder.com/225x335"
+}

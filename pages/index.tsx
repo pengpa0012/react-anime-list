@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Card from '../src/Components/Card'
-import { fetchAPI } from '../src/Utilities/Config'
+import { fetchAPI, handleImgError } from '../src/Utilities/Config'
 import { Anime } from '../src/Utilities/Types'
 
 // Import Swiper React components
@@ -19,14 +19,16 @@ const Home: NextPage = () => {
   const [seasonAnime, setSeasonAnime] = useState<{
     data: Anime[]
   }>()
-  const { width, height } = useWindowSize();
+  const [producers, setProducers] = useState<object[]>()
 
   useEffect(() => {
     Promise.all([
       fetchAPI("https://api.jikan.moe/v4/anime/5114"),
-      fetchAPI("https://api.jikan.moe/v4/seasons/now")
+      fetchAPI("https://api.jikan.moe/v4/seasons/now"),
+      fetchAPI("https://api.jikan.moe/v4/producers")
     ])
-    .then(([topAnime, seasonAnime]) => {
+    .then(([topAnime, seasonAnime, producers]) => {
+      setProducers(producers.data)
       setAnimeTop(topAnime.data)
       setSeasonAnime(seasonAnime)
     })
@@ -76,6 +78,10 @@ const Home: NextPage = () => {
       <div className="mb-20">
         <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Seasonal Animes</h2>
         <Carousel items={seasonAnime} />
+      </div>
+      <div className="mb-20 container">
+        <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Anime Studios</h2>
+        <Carousel customData={producers} />
       </div>
     </div>
   )

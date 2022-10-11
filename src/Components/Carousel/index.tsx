@@ -12,14 +12,16 @@ import Card from '../Card';
 import { Pagination } from "swiper";
 // Import Swiper styles
 import "swiper/css/pagination";
+import { handleImgError } from '../../Utilities/Config';
 
 type Props = {
-  items: {
+  items?: {
     data: Anime[];
   } | undefined
+  customData?: object[]
 }
 
-function Carousel({items, ...props}: Props) {
+function Carousel({items, customData, ...props}: Props) {
   const router = useRouter()
   const { width } = useWindowSize();
   return (
@@ -33,6 +35,20 @@ function Carousel({items, ...props}: Props) {
         modules={[Pagination]}
       >
         {
+          customData ?
+          customData?.map((producer: any, index: number) => (
+            <SwiperSlide key={index} className="flex justify-center pb-12">
+              <div className="card">
+                <div className="card-overlay"></div>
+                <div className="card-details">
+                  <h1 className="text-2xl font-semibold mb-4">{producer.titles[0].title}</h1>
+                  <p>Favorites: {producer.favorites || "N/A"}</p>
+                </div>
+                <img src={producer.images.jpg.image_url} onError={handleImgError} loading="lazy"/>
+              </div>
+            </SwiperSlide>
+          ))
+          :
           items?.data.map((anime: any, index: number) => (
             <SwiperSlide key={index} className="flex justify-center pb-12">
               <Card anime={anime} onClick={() => router.push(`/profile?id=${anime?.mal_id}`)}/>

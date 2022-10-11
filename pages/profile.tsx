@@ -10,6 +10,7 @@ function profile() {
   const [staff, setStaff] = useState<object[]>()
   const [relatedAnimes, setRelatedAnimes] = useState<object[]>()
   const [latestEpisodes, setLatestEpisodes] = useState<object[]>()
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
     if(!router.isReady) return;
@@ -31,10 +32,11 @@ function profile() {
   }, [router.isReady, router.query.id])
 
   const loadData = async (endpoint: string, setterName: string) => {
+    setLoading(true)
     fetchAPI(`https://api.jikan.moe/v4/anime/${router.query.id}/${endpoint}`)
     .then(response => {
       const responseConfig = endpoint == "videos" ? response.data.episodes : response.data
-
+      setLoading(false)
       switch(setterName) {
         case "Staff": 
           setStaff(responseConfig)
@@ -48,9 +50,13 @@ function profile() {
           break
       }
     })
-    .catch(console.error)
+    .catch(err => {
+      setLoading(false)
+      console.error(err)
+    })
   }
 
+  console.log(animeProfile)
   return (
     <div className="container py-20 px-2">
       <div className="flex flex-col lg:flex-row">
@@ -145,7 +151,7 @@ function profile() {
             return <div className="border border-t-0 border-l-0 border-r-0 py-8" key={`data-${i}`}>
               <div className="flex justify-between">
                 <h2 className="text-gray-500 text-3xl">{data.title}</h2>
-                <button disabled={collection?.length == 0 || collection  ? true : false} className="border rounded-md py-2 px-4 disabled:opacity-50 disabled:cursor-not-allowed" onClick={() => loadData(data.endpoint, data.title)}>Show</button>
+                <button disabled={collection?.length == 0 || collection  ? true : false} className={`${loading ? "pointer-events-none opacity-50" : ""} border rounded-md py-2 px-4 disabled:opacity-50 disabled:cursor-not-allowed`} onClick={() => loadData(data.endpoint, data.title)}>Show</button>
               </div>
               <h2 className={`${collection?.length == 0 ? "block" : "hidden"} text-2xl text-gray-500 text-center`}>NO DATA</h2>
               <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-2`}>
