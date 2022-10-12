@@ -83,16 +83,14 @@ const Home: NextPage = () => {
       </div>
       <div className="mb-20 container">
         <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Anime Studios</h2>
-        <Carousel items={producers} content={(content: any) => (
-          <div className="card">
-            <div className="card-overlay"></div>
-            <div className="card-details">
-              <h1 className="text-2xl font-semibold mb-4">{content.titles[0].title}</h1>
-              <p>Favorites: {content.favorites || "N/A"}</p>
-            </div>
-            <img src={content.images.jpg.image_url} onError={handleImgError} loading="lazy"/>
-          </div>
-        )} />
+        <ul className="flex flex-wrap gap-2">
+          {
+            producers?.map((producer: any, i: number) => (
+              <li className="hover:text-blue-500 hover:underline cursor-pointer" key={`producer-${i}`}>{producer.titles[0].title}</li>
+            ))
+          }
+          {/* onClick={() => router.push(`/search?producer=${producer.mal_id}`)} */}
+        </ul>
       </div>
     </div>
   )
