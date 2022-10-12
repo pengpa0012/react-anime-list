@@ -21,7 +21,7 @@ function Card({anime, onClick, home, className, ...props}: Props) {
           <p>Episodes: {anime.episodes || "N/A"}</p>
           <p>Type: {anime.type || "N/A"}</p>
         </div>
-        <img src={anime.images.jpg.image_url}/>
+        <img src={anime.images.jpg.image_url} loading="lazy"/>
       </div>
     </>
   )

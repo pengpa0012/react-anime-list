@@ -86,10 +86,9 @@ const Home: NextPage = () => {
         <ul className="flex flex-wrap gap-2">
           {
             producers?.map((producer: any, i: number) => (
-              <li className="hover:text-blue-500 hover:underline cursor-pointer" key={`producer-${i}`}>{producer.titles[0].title}</li>
+              <li className="hover:text-blue-500 hover:underline cursor-pointer" key={`producer-${i}`} onClick={() => router.push(`/search?q=&producer=${producer.mal_id}`)}>{producer.titles[0].title}</li>
             ))
           }
-          {/* onClick={() => router.push(`/search?producer=${producer.mal_id}`)} */}
         </ul>
       </div>
     </div>
