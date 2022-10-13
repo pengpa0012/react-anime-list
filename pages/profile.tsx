@@ -56,9 +56,11 @@ function profile() {
     })
   }
 
-  console.log(animeProfile)
   return (
     <div className="container py-20 px-2">
+      {
+        animeProfile ?
+      
       <div className="flex flex-col lg:flex-row">
         <div className="w-full lg:w-1/2 mb-12 lg:mb-0 mr-0 lg:mr-10">
           <img src={animeProfile?.images?.jpg.large_image_url} className="w-full rounded-md"/>
@@ -121,7 +123,8 @@ function profile() {
             </div>
           </div>
         </div>
-      </div>
+      </div> : <h2 className={`text-5xl text-center text-gray-500 py-20`}>LOADING...</h2>
+      }
       <div className="my-20">
         {
           animeProfile?.trailer?.embed_url ? 
@@ -130,7 +133,7 @@ function profile() {
         }
       </div>
       <div className="my-20">
-        <h2 className="text-4xl font-light mb-2 text-center">Statistics</h2>
+        <h2 className="text-4xl mb-2 text-center">Statistics</h2>
         <ul className="flex flex-wrap justify-center gap-10 py-6">
           {
            stats?.map((stat: any, i: number) => (

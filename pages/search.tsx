@@ -6,16 +6,13 @@ import Card from '../src/Components/Card'
 import Modal from '../src/Components/Modal'
 import Search from '../src/Components/Search'
 import { fetchAPI } from '../src/Utilities/Config'
+import { Anime } from '../src/Utilities/Types'
 
 function search() {
   const router = useRouter()
-  const [allAnime, setAllAnime] = useState<Object[]>()
+  const [allAnime, setAllAnime] = useState<Anime[]>()
   const [showModal, setShowModal] = useState<boolean>(false)
-  const [animeInfo, setAnimeInfo] = useState<any>({
-    info: {},
-    episodes: {},
-    people: []
-  })
+  const [animeInfo, setAnimeInfo] = useState<Anime>()
   const [id, setId] = useState<number>()
   const [animeCount, setanimeCount] = useState<{
     total: number
@@ -49,9 +46,7 @@ function search() {
   const getAnime = async (id: number) => {
     setId(id)
     setShowModal(true)
-    setAnimeInfo({
-      info: allAnime?.filter((anime: any) => anime.mal_id == id)[0],
-    })
+    setAnimeInfo(allAnime?.filter((anime: any) => anime.mal_id == id)[0])
   }
   
   return (

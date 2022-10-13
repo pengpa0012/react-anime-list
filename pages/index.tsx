@@ -42,6 +42,7 @@ const Home: NextPage = () => {
     <div className="container py-10">
       <div className="mb-20">
         <h1 className="text-4xl mb-6 px-2">Top Anime</h1>
+        {animeTop ?
         <div className="flex flex-col lg:flex-row px-2">
           <div className="w-full lg:w-1/2 mb-12 lg:mb-0 mr-0 lg:mr-10">
             <img src={animeTop?.images?.jpg.large_image_url} className="w-full rounded-md"/>
@@ -74,6 +75,7 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
+        : <h2 className={`text-5xl text-center text-gray-500 py-20`}>LOADING...</h2>}
       </div>
       <div className="mb-20">
         <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Seasonal Animes</h2>
@@ -83,7 +85,7 @@ const Home: NextPage = () => {
       </div>
       <div className="mb-20 container">
         <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Anime Studios</h2>
-        <ul className="flex flex-wrap gap-2">
+        <ul className="flex flex-wrap gap-2 px-2">
           {
             producers?.map((producer: any, i: number) => (
               <li className="hover:text-blue-500 hover:underline cursor-pointer" key={`producer-${i}`} onClick={() => router.push(`/search?q=&producer=${producer.mal_id}`)}>{producer.titles[0].title}</li>
