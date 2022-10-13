@@ -10,6 +10,7 @@ function profile() {
   const [staff, setStaff] = useState<object[]>()
   const [relatedAnimes, setRelatedAnimes] = useState<object[]>()
   const [latestEpisodes, setLatestEpisodes] = useState<object[]>()
+  const [characters, setCharacters] = useState<object[]>()
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
@@ -17,6 +18,7 @@ function profile() {
     setStaff(undefined)
     setRelatedAnimes(undefined)
     setLatestEpisodes(undefined)
+    setCharacters(undefined)
     Promise.all([
       fetchAPI(`https://api.jikan.moe/v4/anime/${router.query.id}`),
       fetchAPI(`https://api.jikan.moe/v4/anime/${router.query.id}/statistics`)
@@ -41,6 +43,9 @@ function profile() {
         case "Staff": 
           setStaff(responseConfig)
           break
+        case "Characters":
+          setCharacters(responseConfig)
+          break
         case "Related Animes":
           setRelatedAnimes(responseConfig)
           break
@@ -55,7 +60,7 @@ function profile() {
       console.error(err)
     })
   }
-
+  console.log(characters)
   return (
     <div className="container py-20 px-2">
       {
@@ -149,7 +154,7 @@ function profile() {
         {
           profileData?.map((data: {title: string, endpoint: string}, i: number) => {
 
-            const collection = data.title == "Staff" ? staff : undefined || data.title == "Related Animes" ? relatedAnimes?.sort((a:any, b:any) => b.entry.length - a.entry.length) : data.title == "Latest Episodes" ? latestEpisodes : undefined
+            const collection = data.title == "Staff" ? staff : undefined || data.title == "Related Animes" ? relatedAnimes?.sort((a:any, b:any) => b.entry.length - a.entry.length) : data.title == "Latest Episodes" ? latestEpisodes : data.title == "Characters" ? characters : undefined
 
             return <div className="border border-t-0 border-l-0 border-r-0 py-8" key={`data-${i}`}>
               <div className="flex justify-between">
@@ -175,14 +180,14 @@ function profile() {
                   :
                   collection?.map((item: any, i: number) => (
                     <div className="p-2 flex" key={`ep-${i}`}>
-                      <img loading="lazy" alt="IMG" src={(data.title == "Staff" ? item.person.images.jpg.image_url : item.images.jpg.image_url )|| "https://via.placeholder.com/100"} className={`mr-4 w-16 object-cover`} />
+                      <img loading="lazy" alt="IMG" src={(data.title == "Staff" ? item.person.images.jpg.image_url : data.title == "Characters" ? item.character.images.jpg.image_url : item.images.jpg.image_url )|| "https://via.placeholder.com/100"} className={`mr-4 w-16 object-cover`} />
                       <div>
-                        <h4 className="text-md">{data.title == "Staff" ? item.person.name : item.episode}</h4>
+                        <h4 className="text-md">{data.title == "Staff" ? item.person.name : data.title == "Characters" ? item.character.name : item.episode}</h4>
                         {
                           data.title == "Staff" ? 
                           item.positions.map((pos: any, i: number) => (
                             <p className="text-xs" key={`pos-${i}`}>{pos}</p>
-                          )) : <p className="text-sm">{item.title}</p>
+                          )) : <p className="text-sm">{data.title == "Characters" ? item.role : item.title}</p>
                         }
                       </div>
                     </div>

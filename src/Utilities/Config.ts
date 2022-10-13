@@ -16,6 +16,10 @@ export const profileData = [
     endpoint: "staff",
   },
   {
+    title: "Characters",
+    endpoint: "characters",
+  },
+  {
     title: "Latest Episodes",
     endpoint: "videos",
   },
