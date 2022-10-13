@@ -162,7 +162,7 @@ function profile() {
                 <button disabled={collection?.length == 0 || collection  ? true : false} className={`${loading ? "pointer-events-none opacity-50" : ""} border rounded-md py-2 px-4 disabled:opacity-50 disabled:cursor-not-allowed`} onClick={() => loadData(data.endpoint, data.title)}>Show</button>
               </div>
               <h2 className={`${collection?.length == 0 ? "block" : "hidden"} text-2xl text-gray-500 text-center`}>NO DATA</h2>
-              <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-2`}>
+              <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-2`}>
                 {
                   data.title == "Related Animes" ? 
                   collection?.map((item: any, i: number) => (
