@@ -83,7 +83,7 @@ const Home: NextPage = () => {
           <Card anime={content} onClick={() => router.push(`/profile?id=${content?.mal_id}`)}/>
         )}  />
       </div>
-      <div className="mb-20 container">
+      {/* <div className="mb-20 container">
         <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Anime Studios</h2>
         <ul className="flex flex-wrap gap-2 px-2">
           {
@@ -92,7 +92,7 @@ const Home: NextPage = () => {
             ))
           }
         </ul>
-      </div>
+      </div> */}
     </div>
   )
 }
