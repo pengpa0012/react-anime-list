@@ -19,16 +19,17 @@ const Home: NextPage = () => {
   const [seasonAnime, setSeasonAnime] = useState<{
     data: Anime[]
   }>()
-  const [producers, setProducers] = useState<object[]>()
+  const [characters, setCharacters] = useState<object[]>()
+  const { width } = useWindowSize();
 
   useEffect(() => {
     Promise.all([
       fetchAPI("https://api.jikan.moe/v4/anime/5114"),
       fetchAPI("https://api.jikan.moe/v4/seasons/now"),
-      fetchAPI("https://api.jikan.moe/v4/producers")
+      fetchAPI("https://api.jikan.moe/v4/characters?order_by=favorites&sort=desc")
     ])
-    .then(([topAnime, seasonAnime, producers]) => {
-      setProducers(producers.data)
+    .then(([topAnime, seasonAnime, characters]) => {
+      setCharacters(characters.data)
       setAnimeTop(topAnime.data)
       setSeasonAnime(seasonAnime)
     })
@@ -79,9 +80,20 @@ const Home: NextPage = () => {
       </div>
       <div className="mb-20">
         <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Seasonal Animes</h2>
-        <Carousel items={seasonAnime?.data} content={(content: any) => (
-          <Card anime={content} onClick={() => router.push(`/profile?id=${content?.mal_id}`)}/>
-        )}  />
+        {
+          width >= 768 ? 
+          <div className="list">
+            {
+              seasonAnime?.data.map(data => (
+                <Card anime={data} onClick={() => router.push(`/profile?id=${data?.mal_id}`)}/>
+              ))
+            }
+          </div>
+        :
+          <Carousel items={seasonAnime?.data} content={(content: any) => (
+            <Card anime={content} onClick={() => router.push(`/profile?id=${content?.mal_id}`)}/>
+          )} />
+        }
       </div>
       {/* <div className="mb-20 container">
         <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Anime Studios</h2>
