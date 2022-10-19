@@ -27,7 +27,7 @@ function search() {
   useEffect(() => {
     setLoading(true)
     if(router.isReady) {
-      fetchAPI(`https://api.jikan.moe/v4/anime?q=${router.query.q == "undefined" ? "" : router.query.q}&producers=${router.query.producer == "undefined" ? "" : router.query.producer}&sfw&page=${router.query.page || 1}`)
+      fetchAPI(`https://api.jikan.moe/v4/anime?q=${router.query.q == "undefined" ? "" : router.query.q}&sfw&page=${router.query.page || 1}`)
       .then(res => {
         console.log(res)
         setCurrentPage(res?.pagination?.current_page)
@@ -71,7 +71,7 @@ function search() {
         }
         onPageChange={(e: { selected: number }) => {
           setCurrentPage(e.selected + 1)
-          router.push(`/search?q=${router.query.q}&producer=${router.query.producer}&page=${e.selected + 1}`)
+          router.push(`/search?q=${router.query.q}&page=${e.selected + 1}`)
         }}
         pageRangeDisplayed={10}
         forcePage={currentPage - 1}

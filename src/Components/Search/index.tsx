@@ -18,7 +18,7 @@ function Search({setAllAnime, queryAllAnime, ...props} : Props) {
   
   const onSearchAnime = () => {
     setLoading(true)
-    router.push(`/search?q=${searchText || ""}&producer=&page=1`)
+    router.push(`/search?q=${searchText || ""}&page=1`)
     setTimeout(() => {
       setLoading(false)
     }, 1000)
