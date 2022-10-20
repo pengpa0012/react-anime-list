@@ -15,7 +15,6 @@ import Carousel from '../src/Components/Carousel'
 
 const Home: NextPage = () => {
   const router = useRouter()
-  const [animeTop, setAnimeTop] = useState<Anime>()
   const [seasonAnime, setSeasonAnime] = useState<{
     data: Anime[]
   }>()
@@ -24,13 +23,11 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     Promise.all([
-      fetchAPI("https://api.jikan.moe/v4/anime/5114"),
       fetchAPI("https://api.jikan.moe/v4/seasons/now"),
       fetchAPI("https://api.jikan.moe/v4/characters?order_by=favorites&sort=desc")
     ])
-    .then(([topAnime, seasonAnime, characters]) => {
+    .then(([seasonAnime, characters]) => {
       setCharacters(characters.data)
-      setAnimeTop(topAnime.data)
       setSeasonAnime(seasonAnime)
     })
     .catch(console.error)
@@ -43,68 +40,48 @@ const Home: NextPage = () => {
     <div className="container py-10">
       <div className="mb-20">
         <h1 className="text-4xl mb-6 px-2">Top Anime</h1>
-        {animeTop ?
         <div className="flex flex-col lg:flex-row px-2">
           <div className="w-full lg:w-1/2 mb-12 lg:mb-0 mr-0 lg:mr-10">
-            <img src={animeTop?.images?.jpg.large_image_url} className="w-full rounded-md"/>
+            <img src="https://cdn.myanimelist.net/images/anime/1223/96541l.jpg" className="w-full rounded-md"/>
           </div>
           <div className="w-full">
             <div className="mb-6">
-              <h2 className="text-3xl mb-4">{animeTop?.title_english || animeTop?.title}</h2>
+              <h2 className="text-3xl mb-4">Fullmetal Alchemist: Brotherhood</h2>
               <div className="mb-2">
                 <h4 className="text-lg font-semibold">Genres</h4>
                 <ul className="flex gap-4">
-                  {
-                    animeTop?.genres.map((genre: any, i: number) => (
-                      <li key={`genre-${i}`}>{genre.name}</li>
-                    ))  
-                  }   
+                  <li>Action</li>
+                  <li>Adventure</li>
+                  <li>Drama</li>
+                  <li>Fantasy</li>
                 </ul>
               </div>
               <div className="mb-2">
                 <h4 className="text-lg font-semibold">Producers</h4>
                 <ul className="flex flex-wrap gap-4">
-                  {
-                    animeTop?.producers.map((producer: any, i: number) => (
-                      <li key={`producer-${i}`}>{producer.name}</li>
-                    ))  
-                  }   
+                  <li>Aniplex</li>
+                  <li>Square Enix</li>
+                  <li>Mainichi Broadcasting System</li>
+                  <li>Studio Moriken</li>
                 </ul>
               </div>
-              <p className="text-md text-gray-500 leading-snug my-6">{animeTop?.synopsis}</p>
-              <button className="border rounded-md py-2 px-4" onClick={() => router.push(`/profile?id=${animeTop?.mal_id}`)}>View Details</button>
+              <p className="text-md text-gray-500 leading-snug my-6">
+                After a horrific alchemy experiment goes wrong in the Elric household, brothers Edward and Alphonse are left in a catastrophic new reality. Ignoring the alchemical principle banning human transmutation, the boys attempted to bring their recently deceased mother back to life. Instead, they suffered brutal personal loss: Alphonse's body disintegrated while Edward lost a leg and then sacrificed an arm to keep Alphonse's soul in the physical realm by binding it to a hulking suit of armor. The brothers are rescued by their neighbor Pinako Rockbell and her granddaughter Winry. Known as a bio-mechanical engineering prodigy, Winry creates prosthetic limbs for Edward by utilizing "automail," a tough, versatile metal used in robots and combat armor. After years of training, the Elric brothers set off on a quest to restore their bodies by locating the Philosopher's Stone—a powerful gem that allows an alchemist to defy the traditional laws of Equivalent Exchange. As Edward becomes an infamous alchemist and gains the nickname "Fullmetal," the boys' journey embroils them in a growing conspiracy that threatens the fate of the world. [Written by MAL Rewrite]
+              </p>
+              <button className="border rounded-md py-2 px-4" onClick={() => router.push(`/profile?id=5114`)}>View Details</button>
             </div>
           </div>
         </div>
-        : <h2 className={`text-5xl text-center text-gray-500 py-20`}>LOADING...</h2>}
       </div>
       <div className="mb-20">
         <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Seasonal Animes</h2>
-        {
-          width >= 768 ? 
-          <div className="list">
-            {
-              seasonAnime?.data.map(data => (
-                <Card anime={data} onClick={() => router.push(`/profile?id=${data?.mal_id}`)}/>
-              ))
-            }
-          </div>
-        :
-          <Carousel items={seasonAnime?.data} content={(content: any) => (
-            <Card anime={content} onClick={() => router.push(`/profile?id=${content?.mal_id}`)}/>
-          )} />
-        }
+        <Carousel items={seasonAnime?.data} content={(content: any) => (
+          <Card anime={content} onClick={() => router.push(`/profile?id=${content?.mal_id}`)}/>
+        )} />
       </div>
-      {/* <div className="mb-20 container">
-        <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Anime Studios</h2>
-        <ul className="flex flex-wrap gap-2 px-2">
-          {
-            producers?.map((producer: any, i: number) => (
-              <li className="hover:text-blue-500 hover:underline cursor-pointer" key={`producer-${i}`} onClick={() => router.push(`/search?q=&producer=${producer.mal_id}`)}>{producer.titles[0].title}</li>
-            ))
-          }
-        </ul>
-      </div> */}
+      <div className="mb-20">
+        <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Top Characters</h2>
+      </div>
     </div>
   )
 }
