@@ -26,7 +26,7 @@ function Carousel({items, content, ...props}: Props) {
     <>
       {
         width >= 768 ? 
-        <div className="list home-slider">
+        <div className="list">
           {
             items?.map((data: any, i: number) => (
               <Card anime={data} onClick={() => router.push(`/profile?id=${data?.mal_id}`)} key={`card-${i}`}/>
