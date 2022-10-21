@@ -56,8 +56,15 @@ function search() {
         : 
         <div className="list">
           {
-            allAnime?.map((anime: any, index: number) => (
-              <Card anime={anime} key={index} onClick={() => getAnime(anime.mal_id)}/>
+            allAnime?.map((anime: Anime, index: number) => (
+              <Card content={
+                <>
+                  <h1 className="text-2xl font-semibold mb-4">{anime.title}</h1>
+                  <p>Score: {anime.score || "N/A"}</p>
+                  <p>Episodes: {anime.episodes || "N/A"}</p>
+                  <p>Type: {anime.type || "N/A"}</p>
+                </>
+                } anime={anime} key={index} onClick={() => getAnime(anime.mal_id)}/>
             ))
           }
         </div>

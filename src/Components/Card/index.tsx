@@ -6,6 +6,7 @@ type Props = {
   home?: boolean
   onClick?: () => void
   className?: string
+  content?: React.ReactNode
 }
 
 
@@ -16,12 +17,9 @@ function Card({anime, onClick, home, className, ...props}: Props) {
       <div className={`${className} card`} onClick={onClick}>
         <div className="card-overlay"></div>
         <div className="card-details">
-          <h1 className="text-2xl font-semibold mb-4">{anime.title}</h1>
-          <p>Score: {anime.score || "N/A"}</p>
-          <p>Episodes: {anime.episodes || "N/A"}</p>
-          <p>Type: {anime.type || "N/A"}</p>
+          {props.content}
         </div>
-        <img src={anime.images.jpg.image_url} loading="lazy"/>
+        <img src={anime?.images.jpg.image_url} loading="lazy"/>
       </div>
     </>
   )
