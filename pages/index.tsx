@@ -35,7 +35,6 @@ const Home: NextPage = () => {
     
   }, [])
 
-  
   return (
     <div className="container py-10">
       <div className="mb-20">
@@ -75,12 +74,26 @@ const Home: NextPage = () => {
       </div>
       <div className="mb-20">
         <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Seasonal Animes</h2>
-        <Carousel items={seasonAnime?.data} content={(content: any) => (
-          <Card anime={content} onClick={() => router.push(`/profile?id=${content?.mal_id}`)}/>
+        <Carousel items={seasonAnime?.data} content={(content: Anime) => (
+          <Card content={
+            <>
+              <h1>trewsr</h1>
+            </>
+            } anime={content} onClick={() => router.push(`/profile?id=${content?.mal_id}`)}/>
         )} />
       </div>
       <div className="mb-20">
-        <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Top Characters</h2>
+        <h2 className="text-center lg:text-left text-3sxl mb-12 px-2">Top Characters</h2>
+        <Carousel items={characters} content={(content: Anime) => (
+          <Card content={
+            <>
+              <h1 className="text-2xl font-semibold mb-4">{content?.title}</h1>
+              <p>Score: {content?.score || "N/A"}</p>
+              <p>Episodes: {content?.episodes || "N/A"}</p>
+              <p>Type: {content?.type || "N/A"}</p>
+            </>
+            } anime={content} onClick={() => alert("test")}/>
+        )} />
       </div>
     </div>
   )
