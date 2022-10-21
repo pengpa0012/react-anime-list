@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Card from '../src/Components/Card'
 import { fetchAPI, handleImgError } from '../src/Utilities/Config'
-import { Anime } from '../src/Utilities/Types'
+import { Anime, Character } from '../src/Utilities/Types'
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -75,24 +75,25 @@ const Home: NextPage = () => {
       <div className="mb-20">
         <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Seasonal Animes</h2>
         <Carousel items={seasonAnime?.data} content={(content: Anime) => (
-          <Card content={
-            <>
-              <h1>trewsr</h1>
-            </>
-            } anime={content} onClick={() => router.push(`/profile?id=${content?.mal_id}`)}/>
-        )} />
-      </div>
-      <div className="mb-20">
-        <h2 className="text-center lg:text-left text-3sxl mb-12 px-2">Top Characters</h2>
-        <Carousel items={characters} content={(content: Anime) => (
-          <Card content={
+          <Card details={
             <>
               <h1 className="text-2xl font-semibold mb-4">{content?.title}</h1>
               <p>Score: {content?.score || "N/A"}</p>
               <p>Episodes: {content?.episodes || "N/A"}</p>
               <p>Type: {content?.type || "N/A"}</p>
             </>
-            } anime={content} onClick={() => alert("test")}/>
+          } anime={content} onClick={() => router.push(`/profile?id=${content?.mal_id}`)}/>
+        )} />
+      </div>
+      <div className="mb-20">
+        <h2 className="text-center lg:text-left text-3xl mb-12 px-2">Top Characters</h2>
+        <Carousel items={characters} content={(content: Character) => (
+          <Card details={
+            <>
+              <h1 className="text-2xl font-semibold mb-4">{content?.name}</h1>
+              <p>Score: {content?.favorites || "N/A"}</p>
+            </>
+            } anime={content} onClick={() => console.log("test")}/>
         )} />
       </div>
     </div>

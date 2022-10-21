@@ -79,3 +79,23 @@ export type Statistics = {
     }
   ]
 }
+
+export type Character = {
+  about: string
+  favorites: number
+  images: {
+    jpg: {
+      image_url: string
+    }
+    webp: {
+      image_url: string
+    }
+  }
+  mal_id: number
+  name: string
+  name_kanji: string
+  nicknames: string[]
+  url: string
+}
+
+export type AnimeCharacter = Anime & Character;

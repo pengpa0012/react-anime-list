@@ -57,7 +57,7 @@ function search() {
         <div className="list">
           {
             allAnime?.map((anime: Anime, index: number) => (
-              <Card content={
+              <Card details={
                 <>
                   <h1 className="text-2xl font-semibold mb-4">{anime.title}</h1>
                   <p>Score: {anime.score || "N/A"}</p>
