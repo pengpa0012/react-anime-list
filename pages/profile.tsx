@@ -162,38 +162,38 @@ function profile() {
                 <button disabled={collection?.length == 0 || collection  ? true : false} className={`${loading ? "pointer-events-none opacity-50" : ""} border rounded-md py-2 px-4 disabled:opacity-50 disabled:cursor-not-allowed`} onClick={() => loadData(data.endpoint, data.title)}>Show</button>
               </div>
               <h2 className={`${collection?.length == 0 ? "block" : "hidden"} text-2xl text-gray-500 text-center`}>NO DATA</h2>
-              <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-2`}>
-                {
-                  data.title == "Related Animes" ? 
-                  collection?.map((item: any, i: number) => (
-                    <div className="p-2" key={`relation-${i}`}>
-                      <h3 className="mb-2 text-2xl">{item.relation}</h3>
-                      <ul>
-                        {
-                          item.entry.map((anime: any, i: number) => (
-                            <li key={`name-${i}`} onClick={() => router.push(`/profile?id=${anime.mal_id}`)} className="cursor-pointer hover:text-blue-500 hover:underline inline-block">{anime.name}</li>
-                          ))
-                        }
-                      </ul>
+              {
+                data.title == "Related Animes" ? 
+                collection?.map((item: any, i: number) => (
+                  <div className="p-2" key={`relation-${i}`}>
+                    <h3 className="mb-2 text-2xl">{item.relation}</h3>
+                    <ul>
+                      {
+                        item.entry.map((anime: any, i: number) => (
+                          <li key={`name-${i}`} onClick={() => router.push(`/profile?id=${anime.mal_id}`)} className="cursor-pointer hover:text-blue-500 hover:underline inline-block m-1">{anime.name}</li>
+                        ))
+                      }
+                    </ul>
+                  </div>
+                ))
+                :
+                <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-2`}>
+                {collection?.map((item: any, i: number) => (
+                  <div className="p-2 flex" key={`ep-${i}`}>
+                    <img loading="lazy" alt="IMG" src={(data.title == "Staff" ? item.person.images.jpg.image_url : data.title == "Characters" ? item.character.images.jpg.image_url : item.images.jpg.image_url )|| "https://via.placeholder.com/100"} className={`mr-4 w-16 object-cover`} />
+                    <div>
+                      <h4 className="text-md">{data.title == "Staff" ? item.person.name : data.title == "Characters" ? item.character.name : item.episode}</h4>
+                      {
+                        data.title == "Staff" ? 
+                        item.positions.map((pos: any, i: number) => (
+                          <p className="text-xs" key={`pos-${i}`}>{pos}</p>
+                        )) : <p className="text-sm">{data.title == "Characters" ? item.role : item.title}</p>
+                      }
                     </div>
-                  ))
-                  :
-                  collection?.map((item: any, i: number) => (
-                    <div className="p-2 flex" key={`ep-${i}`}>
-                      <img loading="lazy" alt="IMG" src={(data.title == "Staff" ? item.person.images.jpg.image_url : data.title == "Characters" ? item.character.images.jpg.image_url : item.images.jpg.image_url )|| "https://via.placeholder.com/100"} className={`mr-4 w-16 object-cover`} />
-                      <div>
-                        <h4 className="text-md">{data.title == "Staff" ? item.person.name : data.title == "Characters" ? item.character.name : item.episode}</h4>
-                        {
-                          data.title == "Staff" ? 
-                          item.positions.map((pos: any, i: number) => (
-                            <p className="text-xs" key={`pos-${i}`}>{pos}</p>
-                          )) : <p className="text-sm">{data.title == "Characters" ? item.role : item.title}</p>
-                        }
-                      </div>
-                    </div>
-                  ))
-                }
-              </div>
+                  </div>
+                ))}
+                </div>
+              }
             </div>
           })
         }
