@@ -91,7 +91,7 @@ const Home: NextPage = () => {
           <Card details={
             <>
               <h1 className="text-2xl font-semibold mb-4">{content?.name}</h1>
-              <p>Score: {content?.favorites || "N/A"}</p>
+              <p>Favorites: {content?.favorites || "N/A"}</p>
             </>
             } anime={content} onClick={() => console.log("test")}/>
         )} />
