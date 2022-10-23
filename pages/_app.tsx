@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
         <script src="https://cdn.tailwindcss.com" defer></script>
       </Head>
-      { router.pathname == "/" || router.pathname == "/search" || router.pathname == "/anime"  ?  <Navbar /> : undefined }
+      { router.pathname == "/" || router.pathname == "/search" || router.pathname == "/anime" || router.pathname == "/character"  ?  <Navbar /> : undefined }
       <Component {...pageProps} />
     </>
   )
