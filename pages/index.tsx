@@ -67,7 +67,7 @@ const Home: NextPage = () => {
               <p className="text-md text-gray-500 leading-snug my-6">
                 After a horrific alchemy experiment goes wrong in the Elric household, brothers Edward and Alphonse are left in a catastrophic new reality. Ignoring the alchemical principle banning human transmutation, the boys attempted to bring their recently deceased mother back to life. Instead, they suffered brutal personal loss: Alphonse's body disintegrated while Edward lost a leg and then sacrificed an arm to keep Alphonse's soul in the physical realm by binding it to a hulking suit of armor. The brothers are rescued by their neighbor Pinako Rockbell and her granddaughter Winry. Known as a bio-mechanical engineering prodigy, Winry creates prosthetic limbs for Edward by utilizing "automail," a tough, versatile metal used in robots and combat armor. After years of training, the Elric brothers set off on a quest to restore their bodies by locating the Philosopher's Stone—a powerful gem that allows an alchemist to defy the traditional laws of Equivalent Exchange. As Edward becomes an infamous alchemist and gains the nickname "Fullmetal," the boys' journey embroils them in a growing conspiracy that threatens the fate of the world. [Written by MAL Rewrite]
               </p>
-              <button className="border rounded-md py-2 px-4" onClick={() => router.push(`/profile?id=5114`)}>View Details</button>
+              <button className="border rounded-md py-2 px-4" onClick={() => router.push(`/anime?id=5114`)}>View Details</button>
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@ const Home: NextPage = () => {
               <p className="text-sm">Episodes: {content?.episodes || "N/A"}</p>
               <p className="text-sm">Type: {content?.type || "N/A"}</p>
             </>
-          } anime={content} onClick={() => router.push(`/profile?id=${content?.mal_id}`)}/>
+          } anime={content} onClick={() => router.push(`/anime?id=${content?.mal_id}`)}/>
         )} />
       </div>
       <div className="mb-20">

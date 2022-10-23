@@ -42,7 +42,7 @@ function Modal({animeInfo, showModal, setShowModal, setAnimeInfo, id, ...props}:
               </div>
               <button className="border rounded-md py-2 px-4" onClick={() => {
                 document.body.style.overflowY = "scroll"
-                router.push(`/profile?id=${animeInfo?.mal_id}`)
+                router.push(`/anime?id=${animeInfo?.mal_id}`)
                 }}>View Details</button>
             </div>
             <div className="flex flex-col sm:flex-row my-4 text-sm">

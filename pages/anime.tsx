@@ -170,7 +170,7 @@ function profile() {
                     <ul>
                       {
                         item.entry.map((anime: any, i: number) => (
-                          <li key={`name-${i}`} onClick={() => router.push(`/profile?id=${anime.mal_id}`)} className="cursor-pointer hover:text-blue-500 hover:underline inline-block m-1">{anime.name}</li>
+                          <li key={`name-${i}`} onClick={() => router.push(`/anime?id=${anime.mal_id}`)} className="cursor-pointer hover:text-blue-500 hover:underline inline-block m-1">{anime.name}</li>
                         ))
                       }
                     </ul>
