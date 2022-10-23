@@ -22,6 +22,7 @@ type Props = {
 function Carousel({items, content, ...props}: Props) {
   const router = useRouter()
   const { width } = useWindowSize();
+
   return (
     <>
       {
@@ -29,7 +30,7 @@ function Carousel({items, content, ...props}: Props) {
         <div className="list">
           {
             items?.map((data: any, i: number) => (
-              <>{content(data)}</>
+              <React.Fragment key={`li-${i}`}>{content(data)}</React.Fragment>
             ))
           }
         </div>
@@ -43,9 +44,9 @@ function Carousel({items, content, ...props}: Props) {
           modules={[Pagination]}
         >
           {
-            items?.map((producer: any, index: number) => (
+            items?.map((data: any, index: number) => (
               <SwiperSlide key={`card-${index}`} className="flex justify-center pb-12">
-                {content(producer)}
+                {content(data)}
               </SwiperSlide>
             ))
           }

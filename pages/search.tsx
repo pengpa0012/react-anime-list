@@ -59,10 +59,10 @@ function search() {
             allAnime?.map((anime: Anime, index: number) => (
               <Card details={
                 <>
-                  <h1 className="text-2xl font-semibold mb-4">{anime.title}</h1>
-                  <p>Score: {anime.score || "N/A"}</p>
-                  <p>Episodes: {anime.episodes || "N/A"}</p>
-                  <p>Type: {anime.type || "N/A"}</p>
+                  <h1 className="text-2xl font-bold mb-2">{anime.title}</h1>
+                  <p className="text-sm">Score: {anime.score || "N/A"}</p>
+                  <p className="text-sm">Episodes: {anime.episodes || "N/A"}</p>
+                  <p className="text-sm">Type: {anime.type || "N/A"}</p>
                 </>
                 } anime={anime} key={index} onClick={() => getAnime(anime.mal_id)}/>
             ))

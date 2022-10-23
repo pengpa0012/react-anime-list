@@ -77,10 +77,10 @@ const Home: NextPage = () => {
         <Carousel items={seasonAnime?.data} content={(content: Anime) => (
           <Card details={
             <>
-              <h1 className="text-2xl font-semibold mb-4">{content?.title}</h1>
-              <p>Score: {content?.score || "N/A"}</p>
-              <p>Episodes: {content?.episodes || "N/A"}</p>
-              <p>Type: {content?.type || "N/A"}</p>
+              <h1 className="text-2xl font-bold mb-2">{content?.title}</h1>
+              <p className="text-sm">Score: {content?.score || "N/A"}</p>
+              <p className="text-sm">Episodes: {content?.episodes || "N/A"}</p>
+              <p className="text-sm">Type: {content?.type || "N/A"}</p>
             </>
           } anime={content} onClick={() => router.push(`/profile?id=${content?.mal_id}`)}/>
         )} />
@@ -90,8 +90,9 @@ const Home: NextPage = () => {
         <Carousel items={characters} content={(content: Character) => (
           <Card details={
             <>
-              <h1 className="text-2xl font-semibold mb-4">{content?.name}</h1>
-              <p>Favorites: {content?.favorites || "N/A"}</p>
+              <h1 className="text-2xl font-bold mb-1">{content?.name}</h1>
+              <p className="mb-2 text-sm font-semibold">{content?.nicknames[0] || "N/A"}</p>
+              <p className="text-sm">Favorites: {content?.favorites || "N/A"}</p>
             </>
             } anime={content} onClick={() => console.log("test")}/>
         )} />
