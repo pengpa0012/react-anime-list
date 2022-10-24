@@ -97,5 +97,3 @@ export type Character = {
   nicknames: string[]
   url: string
 }
-
-export type AnimeCharacter = Anime & Character;

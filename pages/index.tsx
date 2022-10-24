@@ -94,7 +94,7 @@ const Home: NextPage = () => {
               <p className="mb-2 text-sm font-semibold">{content?.nicknames[0] || "N/A"}</p>
               <p className="text-sm">Favorites: {content?.favorites || "N/A"}</p>
             </>
-            } anime={content} onClick={() => console.log("test")}/>
+            } anime={content} onClick={() => router.push(`/character?id=${content?.mal_id}`)}/>
         )} />
       </div>
     </div>
