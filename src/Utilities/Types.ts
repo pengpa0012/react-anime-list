@@ -83,6 +83,7 @@ export type Statistics = {
 export type Character = {
   about: string
   favorites: number
+  anime: object[]
   images: {
     jpg: {
       image_url: string
