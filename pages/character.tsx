@@ -40,7 +40,8 @@ function character() {
                 </ul>
               </li>
             </ul>
-            <p className="text-sm whitespace-pre-line">{character?.about}</p>
+            <p className="text-2xl mb-2">About</p>
+            <p className="text-sm whitespace-pre-line overflow-y-scroll character-about">{character?.about}</p>
           </div>
         </div>
         : <h2 className={`text-5xl text-center text-gray-500 py-20`}>LOADING...</h2>
