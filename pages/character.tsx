@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import Card from '../src/Components/Card'
+import Carousel from '../src/Components/Carousel'
 import { fetchAPI } from '../src/Utilities/Config'
 import { Character } from '../src/Utilities/Types'
 
@@ -47,7 +49,18 @@ function character() {
         : <h2 className={`text-5xl text-center text-gray-500 py-20`}>LOADING...</h2>
       }
       <div className="my-20">
-        <h3 className="mb-2 text-2xl">Animes</h3>
+      <h3 className="mb-4 text-2xl">Voice Actors/Actress</h3>
+        <Carousel items={character?.voices} content={(content: any) => (
+          <Card details={
+            <>
+              <h1 className="text-2xl font-bold mb-2">{content?.person.name}</h1>
+              <p className="text-sm">{content?.language || "N/A"}</p>
+            </>
+          } anime={content?.person}/>
+        )} />
+      </div>
+      <div className="my-20">
+        <h3 className="mb-4 text-2xl">Animes</h3>
         <div className="p-2">
           <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {
@@ -59,7 +72,7 @@ function character() {
               ))
             }
           </ul>
-      </div>
+        </div>
       </div>
     </div>
   )

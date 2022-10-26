@@ -84,6 +84,7 @@ export type Character = {
   about: string
   favorites: number
   anime: object[]
+  voices: object[]
   images: {
     jpg: {
       image_url: string
